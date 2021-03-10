@@ -1,0 +1,414 @@
+openapi: 3.0.0
+info:
+  title: Swagger Petstore
+  description: |
+    This is a sample Petstore server.  You can find
+    out more about Swagger at
+    [http://swagger.io](http://swagger.io) or on
+    [irc.freenode.net, #swagger](http://swagger.io/irc/).
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: /
+tags:
+- name: test
+  description: field name teachers
+paths:
+  /api/teachers:
+    get:
+      tags:
+      - test
+      summary: show all teachers
+      description: the table teachers
+      operationId: api_teachers_get
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Teachers'
+        "400":
+          description: bad request
+      x-openapi-router-controller: swagger_server.controllers.test_controller
+  /api/courses:
+    get:
+      tags:
+      - test
+      summary: show all courses
+      operationId: api_courses_get
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Courses'
+      x-openapi-router-controller: swagger_server.controllers.test_controller
+  /api/classes:
+    get:
+      tags:
+      - test
+      summary: show all classes
+      operationId: api_classes_get
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Classes'
+      x-openapi-router-controller: swagger_server.controllers.test_controller
+components:
+  schemas:
+    Teachers:
+      required:
+      - FullName
+      - Id
+      type: object
+      properties:
+        Id:
+          type: integer
+          format: int64
+        FullName:
+          maxLength: 250
+          type: string
+        Email:
+          maxLength: 100
+          type: string
+          format: email
+        Phone:
+          maxLength: 15
+          type: string
+        Address:
+          maxLength: 250
+          type: string
+        Grade:
+          maxLength: 20
+          type: string
+      description: Table Teachers
+      example:
+        Email: ""
+        Address: Address
+        Phone: Phone
+        FullName: FullName
+        Grade: Grade
+        Id: 0
+      xml:
+        name: Teachers
+    Courses:
+      required:
+      - CreateDate
+      - Id
+      - Name
+      type: object
+      properties:
+        Id:
+          type: integer
+          format: int64
+        Name:
+          maxLength: 200
+          type: string
+        Type:
+          maxLength: 50
+          type: string
+        CreateDate:
+          type: string
+          format: date-time
+      description: table course
+      example:
+        Type: Type
+        Id: 0
+        CreateDate: 2000-01-23T04:56:07.000+00:00
+        Name: Name
+      xml:
+        name: Courses
+    Classes:
+      required:
+      - CourseId
+      - Id
+      - Name
+      - StartDate
+      - TeacherId
+      type: object
+      properties:
+        Id:
+          type: integer
+          format: int64
+        Name:
+          maxLength: 250
+          type: string
+        StartDate:
+          type: string
+          format: date-time
+        EndDate:
+          type: string
+          format: date-time
+        CourseId:
+          $ref: '#/components/schemas/Courses'
+        TeacherId:
+          $ref: '#/components/schemas/Teachers'
+        Status:
+          maxLength: 20
+          type: string
+      example:
+        StartDate: 2000-01-23T04:56:07.000+00:00
+        Status: Status
+        CourseId:
+          Type: Type
+          Id: 0
+          CreateDate: 2000-01-23T04:56:07.000+00:00
+          Name: Name
+        Id: 0
+        EndDate: 2000-01-23T04:56:07.000+00:00
+        TeacherId:
+          Email: ""
+          Address: Address
+          Phone: Phone
+          FullName: FullName
+          Grade: Grade
+          Id: 0
+        Name: Name
+      xml:
+        name: Classes
+    Students:
+      required:
+      - CreateDate
+      - Email
+      - FullName
+      - Id
+      type: object
+      properties:
+        Id:
+          type: integer
+          format: int64
+        FullName:
+          maxLength: 250
+          type: string
+        Address:
+          maxLength: 250
+          type: string
+        Email:
+          maxLength: 100
+          type: string
+          format: email
+        Phone:
+          maxLength: 15
+          type: string
+        BirthDay:
+          type: string
+          format: date
+        Note:
+          maxLength: 2000
+          type: string
+        Facebook:
+          maxLength: 100
+          type: string
+        CreateDate:
+          type: string
+          format: date-time
+      xml:
+        name: Students
+    Registrations:
+      required:
+      - ClassId
+      - CreateDate
+      - RegisterDay
+      - Status
+      - StudentId
+      type: object
+      properties:
+        StudentId:
+          $ref: '#/components/schemas/Students'
+        ClassId:
+          $ref: '#/components/schemas/Classes'
+        RegisterDay:
+          type: string
+          format: date-time
+        Status:
+          maxLength: 10
+          type: string
+        CreateDate:
+          type: string
+          format: date-time
+    Events:
+      required:
+      - ClassId
+      - CreateDate
+      - HaapenDate
+      - Id
+      - Name
+      - Status
+      type: object
+      properties:
+        Id:
+          type: integer
+          format: int64
+        Name:
+          maxLength: 250
+          type: string
+        ClassId:
+          $ref: '#/components/schemas/Classes'
+        CreateDate:
+          type: string
+          format: date-time
+        Status:
+          maxLength: 20
+          type: string
+        HappenDate:
+          type: string
+          format: date-time
+      xml:
+        name: Events
+    Exams:
+      required:
+      - CourseId
+      - Id
+      - Name
+      type: object
+      properties:
+        Id:
+          type: integer
+          format: int64
+        Name:
+          maxLength: 500
+          type: string
+        CourseId:
+          $ref: '#/components/schemas/Courses'
+      xml:
+        name: Exams
+    ExamResults:
+      required:
+      - ClassId
+      - ExamId
+      - Id
+      - ResultDate
+      - Score
+      - StudentId
+      type: object
+      properties:
+        Id:
+          type: integer
+          format: int64
+        StudentId:
+          $ref: '#/components/schemas/Students'
+        ExamId:
+          $ref: '#/components/schemas/Exams'
+        Score:
+          type: integer
+          format: int32
+        ResultDate:
+          type: string
+          format: date-time
+        ClassId:
+          $ref: '#/components/schemas/Classes'
+        Note:
+          maxLength: 2000
+          type: string
+      xml:
+        name: ExamResults
+    Plans:
+      required:
+      - CourseId
+      - Id
+      - Name
+      type: object
+      properties:
+        Id:
+          type: integer
+          format: int64
+        Name:
+          maxLength: 100
+          type: string
+        CourseId:
+          $ref: '#/components/schemas/Courses'
+      xml:
+        name: Plans
+  requestBodies:
+    Teachers:
+      description: body teacher
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Teachers'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Teachers'
+    Courses:
+      description: body Courses
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Courses'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Courses'
+    Classes:
+      description: body Classes
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Classes'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Classes'
+    Students:
+      description: body Students
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Students'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Students'
+    Registrations:
+      description: body Registrations
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Registrations'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Registrations'
+    Events:
+      description: body Events
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Events'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Events'
+    Exams:
+      description: body Exams
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Exams'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Exams'
+    ExamResults:
+      description: body ExamResults
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ExamResults'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/ExamResults'
+    Plans:
+      description: body Plans
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Plans'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Plans'
+

@@ -1,0 +1,11 @@
+CSRF hay còn gọi là kỹ thuật tấn công "Cross site request forgery", nghĩa là kỹ thuật tấn công giả mạo chính chủ thể của nó. Là tấn công chúng thực request trên web thông qua sử dụng cookies.
+- Là kiểu tấn công gây sự nhầm lẫn tăng tính xác thực và cấp quyền nạn nhân khi gửi request giả mạo đến máy chủ.
+- Các kĩ thuật phòng chống triệt để csrf.
+	+ Sử dụng captcha, các thông báo xác nhận
+	+ Sử dụng csrf_token
+	+ Sử dụng cookie riêng biệt cho trang admin
+* Session:
+- Là một phiên làm việc trong web có kết nối database
+- Session bắt đầu khi client gửi request đến server, nó tồn tại xuyên suốt trang
+* Cookie:
+- Cũng được dùng để lưu những thông tin tạm thời. Nhưng tập tin cookie sẽ được truyền từ server tới browser và được lưu trữ trên máy tính của bạn

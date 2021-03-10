@@ -14,35 +14,35 @@ from swagger_server.test import BaseTestCase
 class TestTestController(BaseTestCase):
     """TestController integration test stubs"""
 
-    def test_api_classes_get(self):
-        """Test case for api_classes_get
+    def test_get_classes(self):
+        """Test case for get_classes
 
         show all classes
         """
         response = self.client.open(
-            '/api/classes',
+            '/phuthien007/ManagementStudent/1.0.0/api/classes',
             method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_api_courses_get(self):
-        """Test case for api_courses_get
+    def test_get_course(self):
+        """Test case for get_course
 
         show all courses
         """
         response = self.client.open(
-            '/api/courses',
+            '/phuthien007/ManagementStudent/1.0.0/api/courses',
             method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_api_teachers_get(self):
-        """Test case for api_teachers_get
+    def test_get_teacher(self):
+        """Test case for get_teacher
 
         show all teachers
         """
         response = self.client.open(
-            '/api/teachers',
+            '/phuthien007/ManagementStudent/1.0.0/api/teachers',
             method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))

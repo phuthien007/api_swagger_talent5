@@ -13,8 +13,6 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
-servers:
-- url: /
 tags:
 - name: test
   description: field name teachers
@@ -25,7 +23,7 @@ paths:
       - test
       summary: show all teachers
       description: the table teachers
-      operationId: api_teachers_get
+      operationId: get_teacher
       responses:
         "200":
           description: success
@@ -41,7 +39,7 @@ paths:
       tags:
       - test
       summary: show all courses
-      operationId: api_courses_get
+      operationId: get_course
       responses:
         "200":
           description: success
@@ -55,7 +53,7 @@ paths:
       tags:
       - test
       summary: show all classes
-      operationId: api_classes_get
+      operationId: get_classes
       responses:
         "200":
           description: success
@@ -240,7 +238,7 @@ components:
       required:
       - ClassId
       - CreateDate
-      - HaapenDate
+      - HappenDate
       - Id
       - Name
       - Status

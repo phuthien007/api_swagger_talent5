@@ -199,5 +199,7 @@ class Events(Model):
         :param happen_date: The happen_date of this Events.
         :type happen_date: datetime
         """
+        if happen_date is None:
+            raise ValueError("Invalid value for `happen_date`, must not be `None`")  # noqa: E501
 
         self._happen_date = happen_date

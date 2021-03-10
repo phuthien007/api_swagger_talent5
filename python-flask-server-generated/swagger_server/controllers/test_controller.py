@@ -1,13 +1,14 @@
 import connexion
 import six
 
+from swagger_server.controllers.utils import get_data
 from swagger_server.models.classes import Classes  # noqa: E501
 from swagger_server.models.courses import Courses  # noqa: E501
 from swagger_server.models.teachers import Teachers  # noqa: E501
 from swagger_server import util
 
 
-def api_classes_get():  # noqa: E501
+def get_classes():  # noqa: E501
     """show all classes
 
      # noqa: E501
@@ -18,7 +19,7 @@ def api_classes_get():  # noqa: E501
     return 'do some magic!'
 
 
-def api_courses_get():  # noqa: E501
+def get_course():  # noqa: E501
     """show all courses
 
      # noqa: E501
@@ -29,7 +30,7 @@ def api_courses_get():  # noqa: E501
     return 'do some magic!'
 
 
-def api_teachers_get():  # noqa: E501
+def get_teacher():  # noqa: E501
     """show all teachers
 
     the table teachers # noqa: E501
@@ -37,4 +38,5 @@ def api_teachers_get():  # noqa: E501
 
     :rtype: Teachers
     """
-    return 'do some magic!'
+
+    return get_data()

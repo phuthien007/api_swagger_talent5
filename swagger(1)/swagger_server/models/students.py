@@ -14,11 +14,11 @@ class Students(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: int=None, full_name: str=None, address: str=None, email: str=None, phone: str=None, birth_day: date=None, note: str=None, facebook: str=None, create_date: datetime=None):  # noqa: E501
+    def __init__(self, student_id: int=None, full_name: str=None, address: str=None, email: str=None, phone: str=None, birthday: date=None, note: str=None, facebook: str=None, create_date: datetime=None):  # noqa: E501
         """Students - a model defined in Swagger
 
-        :param id: The id of this Students.  # noqa: E501
-        :type id: int
+        :param student_id: The student_id of this Students.  # noqa: E501
+        :type student_id: int
         :param full_name: The full_name of this Students.  # noqa: E501
         :type full_name: str
         :param address: The address of this Students.  # noqa: E501
@@ -27,8 +27,8 @@ class Students(Model):
         :type email: str
         :param phone: The phone of this Students.  # noqa: E501
         :type phone: str
-        :param birth_day: The birth_day of this Students.  # noqa: E501
-        :type birth_day: date
+        :param birthday: The birthday of this Students.  # noqa: E501
+        :type birthday: date
         :param note: The note of this Students.  # noqa: E501
         :type note: str
         :param facebook: The facebook of this Students.  # noqa: E501
@@ -37,34 +37,34 @@ class Students(Model):
         :type create_date: datetime
         """
         self.swagger_types = {
-            'id': int,
+            'student_id': int,
             'full_name': str,
             'address': str,
             'email': str,
             'phone': str,
-            'birth_day': date,
+            'birthday': date,
             'note': str,
             'facebook': str,
             'create_date': datetime
         }
 
         self.attribute_map = {
-            'id': 'Id',
-            'full_name': 'FullName',
-            'address': 'Address',
-            'email': 'Email',
-            'phone': 'Phone',
-            'birth_day': 'BirthDay',
-            'note': 'Note',
-            'facebook': 'Facebook',
-            'create_date': 'CreateDate'
+            'student_id': 'student_id',
+            'full_name': 'full_name',
+            'address': 'address',
+            'email': 'email',
+            'phone': 'phone',
+            'birthday': 'birthday',
+            'note': 'note',
+            'facebook': 'facebook',
+            'create_date': 'create_date'
         }
-        self._id = id
+        self._student_id = student_id
         self._full_name = full_name
         self._address = address
         self._email = email
         self._phone = phone
-        self._birth_day = birth_day
+        self._birthday = birthday
         self._note = note
         self._facebook = facebook
         self._create_date = create_date
@@ -75,33 +75,31 @@ class Students(Model):
 
         :param dikt: A dict.
         :type: dict
-        :return: The Students of this Students.  # noqa: E501
+        :return: The students of this Students.  # noqa: E501
         :rtype: Students
         """
         return util.deserialize_model(dikt, cls)
 
     @property
-    def id(self) -> int:
-        """Gets the id of this Students.
+    def student_id(self) -> int:
+        """Gets the student_id of this Students.
 
 
-        :return: The id of this Students.
+        :return: The student_id of this Students.
         :rtype: int
         """
-        return self._id
+        return self._student_id
 
-    @id.setter
-    def id(self, id: int):
-        """Sets the id of this Students.
+    @student_id.setter
+    def student_id(self, student_id: int):
+        """Sets the student_id of this Students.
 
 
-        :param id: The id of this Students.
-        :type id: int
+        :param student_id: The student_id of this Students.
+        :type student_id: int
         """
-        if id is None:
-            raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
 
-        self._id = id
+        self._student_id = student_id
 
     @property
     def full_name(self) -> str:
@@ -192,25 +190,25 @@ class Students(Model):
         self._phone = phone
 
     @property
-    def birth_day(self) -> date:
-        """Gets the birth_day of this Students.
+    def birthday(self) -> date:
+        """Gets the birthday of this Students.
 
 
-        :return: The birth_day of this Students.
+        :return: The birthday of this Students.
         :rtype: date
         """
-        return self._birth_day
+        return self._birthday
 
-    @birth_day.setter
-    def birth_day(self, birth_day: date):
-        """Sets the birth_day of this Students.
+    @birthday.setter
+    def birthday(self, birthday: date):
+        """Sets the birthday of this Students.
 
 
-        :param birth_day: The birth_day of this Students.
-        :type birth_day: date
+        :param birthday: The birthday of this Students.
+        :type birthday: date
         """
 
-        self._birth_day = birth_day
+        self._birthday = birthday
 
     @property
     def note(self) -> str:

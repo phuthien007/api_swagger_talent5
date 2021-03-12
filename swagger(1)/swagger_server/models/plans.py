@@ -15,28 +15,28 @@ class Plans(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: int=None, name: str=None, course_id: Courses=None):  # noqa: E501
+    def __init__(self, plan_id: int=None, name: str=None, course_id: Courses=None):  # noqa: E501
         """Plans - a model defined in Swagger
 
-        :param id: The id of this Plans.  # noqa: E501
-        :type id: int
+        :param plan_id: The plan_id of this Plans.  # noqa: E501
+        :type plan_id: int
         :param name: The name of this Plans.  # noqa: E501
         :type name: str
         :param course_id: The course_id of this Plans.  # noqa: E501
         :type course_id: Courses
         """
         self.swagger_types = {
-            'id': int,
+            'plan_id': int,
             'name': str,
             'course_id': Courses
         }
 
         self.attribute_map = {
-            'id': 'Id',
-            'name': 'Name',
-            'course_id': 'CourseId'
+            'plan_id': 'plan_id',
+            'name': 'name',
+            'course_id': 'course_id'
         }
-        self._id = id
+        self._plan_id = plan_id
         self._name = name
         self._course_id = course_id
 
@@ -46,33 +46,31 @@ class Plans(Model):
 
         :param dikt: A dict.
         :type: dict
-        :return: The Plans of this Plans.  # noqa: E501
+        :return: The plans of this Plans.  # noqa: E501
         :rtype: Plans
         """
         return util.deserialize_model(dikt, cls)
 
     @property
-    def id(self) -> int:
-        """Gets the id of this Plans.
+    def plan_id(self) -> int:
+        """Gets the plan_id of this Plans.
 
 
-        :return: The id of this Plans.
+        :return: The plan_id of this Plans.
         :rtype: int
         """
-        return self._id
+        return self._plan_id
 
-    @id.setter
-    def id(self, id: int):
-        """Sets the id of this Plans.
+    @plan_id.setter
+    def plan_id(self, plan_id: int):
+        """Sets the plan_id of this Plans.
 
 
-        :param id: The id of this Plans.
-        :type id: int
+        :param plan_id: The plan_id of this Plans.
+        :type plan_id: int
         """
-        if id is None:
-            raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
 
-        self._id = id
+        self._plan_id = plan_id
 
     @property
     def name(self) -> str:

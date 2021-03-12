@@ -14,11 +14,11 @@ class Teachers(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: int=None, full_name: str=None, email: str=None, phone: str=None, address: str=None, grade: str=None):  # noqa: E501
+    def __init__(self, teacher_id: int=None, full_name: str=None, email: str=None, phone: str=None, address: str=None, grade: str=None):  # noqa: E501
         """Teachers - a model defined in Swagger
 
-        :param id: The id of this Teachers.  # noqa: E501
-        :type id: int
+        :param teacher_id: The teacher_id of this Teachers.  # noqa: E501
+        :type teacher_id: int
         :param full_name: The full_name of this Teachers.  # noqa: E501
         :type full_name: str
         :param email: The email of this Teachers.  # noqa: E501
@@ -31,7 +31,7 @@ class Teachers(Model):
         :type grade: str
         """
         self.swagger_types = {
-            'id': int,
+            'teacher_id': int,
             'full_name': str,
             'email': str,
             'phone': str,
@@ -40,14 +40,14 @@ class Teachers(Model):
         }
 
         self.attribute_map = {
-            'id': 'Id',
-            'full_name': 'FullName',
-            'email': 'Email',
-            'phone': 'Phone',
-            'address': 'Address',
-            'grade': 'Grade'
+            'teacher_id': 'teacher_id',
+            'full_name': 'full_name',
+            'email': 'email',
+            'phone': 'phone',
+            'address': 'address',
+            'grade': 'grade'
         }
-        self._id = id
+        self._teacher_id = teacher_id
         self._full_name = full_name
         self._email = email
         self._phone = phone
@@ -60,33 +60,31 @@ class Teachers(Model):
 
         :param dikt: A dict.
         :type: dict
-        :return: The Teachers of this Teachers.  # noqa: E501
+        :return: The teachers of this Teachers.  # noqa: E501
         :rtype: Teachers
         """
         return util.deserialize_model(dikt, cls)
 
     @property
-    def id(self) -> int:
-        """Gets the id of this Teachers.
+    def teacher_id(self) -> int:
+        """Gets the teacher_id of this Teachers.
 
 
-        :return: The id of this Teachers.
+        :return: The teacher_id of this Teachers.
         :rtype: int
         """
-        return self._id
+        return self._teacher_id
 
-    @id.setter
-    def id(self, id: int):
-        """Sets the id of this Teachers.
+    @teacher_id.setter
+    def teacher_id(self, teacher_id: int):
+        """Sets the teacher_id of this Teachers.
 
 
-        :param id: The id of this Teachers.
-        :type id: int
+        :param teacher_id: The teacher_id of this Teachers.
+        :type teacher_id: int
         """
-        if id is None:
-            raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
 
-        self._id = id
+        self._teacher_id = teacher_id
 
     @property
     def full_name(self) -> str:

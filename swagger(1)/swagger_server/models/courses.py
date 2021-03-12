@@ -14,11 +14,11 @@ class Courses(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: int=None, name: str=None, type: str=None, create_date: datetime=None):  # noqa: E501
+    def __init__(self, course_id: int=None, name: str=None, type: str=None, create_date: datetime=None):  # noqa: E501
         """Courses - a model defined in Swagger
 
-        :param id: The id of this Courses.  # noqa: E501
-        :type id: int
+        :param course_id: The course_id of this Courses.  # noqa: E501
+        :type course_id: int
         :param name: The name of this Courses.  # noqa: E501
         :type name: str
         :param type: The type of this Courses.  # noqa: E501
@@ -27,19 +27,19 @@ class Courses(Model):
         :type create_date: datetime
         """
         self.swagger_types = {
-            'id': int,
+            'course_id': int,
             'name': str,
             'type': str,
             'create_date': datetime
         }
 
         self.attribute_map = {
-            'id': 'Id',
-            'name': 'Name',
-            'type': 'Type',
-            'create_date': 'CreateDate'
+            'course_id': 'course_id',
+            'name': 'name',
+            'type': 'type',
+            'create_date': 'create_date'
         }
-        self._id = id
+        self._course_id = course_id
         self._name = name
         self._type = type
         self._create_date = create_date
@@ -50,33 +50,31 @@ class Courses(Model):
 
         :param dikt: A dict.
         :type: dict
-        :return: The Courses of this Courses.  # noqa: E501
+        :return: The courses of this Courses.  # noqa: E501
         :rtype: Courses
         """
         return util.deserialize_model(dikt, cls)
 
     @property
-    def id(self) -> int:
-        """Gets the id of this Courses.
+    def course_id(self) -> int:
+        """Gets the course_id of this Courses.
 
 
-        :return: The id of this Courses.
+        :return: The course_id of this Courses.
         :rtype: int
         """
-        return self._id
+        return self._course_id
 
-    @id.setter
-    def id(self, id: int):
-        """Sets the id of this Courses.
+    @course_id.setter
+    def course_id(self, course_id: int):
+        """Sets the course_id of this Courses.
 
 
-        :param id: The id of this Courses.
-        :type id: int
+        :param course_id: The course_id of this Courses.
+        :type course_id: int
         """
-        if id is None:
-            raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
 
-        self._id = id
+        self._course_id = course_id
 
     @property
     def name(self) -> str:

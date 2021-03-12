@@ -15,28 +15,28 @@ class Exams(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: int=None, name: str=None, course_id: Courses=None):  # noqa: E501
+    def __init__(self, exam_id: int=None, name: str=None, course_id: List[Courses]=None):  # noqa: E501
         """Exams - a model defined in Swagger
 
-        :param id: The id of this Exams.  # noqa: E501
-        :type id: int
+        :param exam_id: The exam_id of this Exams.  # noqa: E501
+        :type exam_id: int
         :param name: The name of this Exams.  # noqa: E501
         :type name: str
         :param course_id: The course_id of this Exams.  # noqa: E501
-        :type course_id: Courses
+        :type course_id: List[Courses]
         """
         self.swagger_types = {
-            'id': int,
+            'exam_id': int,
             'name': str,
-            'course_id': Courses
+            'course_id': List[Courses]
         }
 
         self.attribute_map = {
-            'id': 'Id',
-            'name': 'Name',
-            'course_id': 'CourseId'
+            'exam_id': 'exam_id',
+            'name': 'name',
+            'course_id': 'course_id'
         }
-        self._id = id
+        self._exam_id = exam_id
         self._name = name
         self._course_id = course_id
 
@@ -46,33 +46,31 @@ class Exams(Model):
 
         :param dikt: A dict.
         :type: dict
-        :return: The Exams of this Exams.  # noqa: E501
+        :return: The exams of this Exams.  # noqa: E501
         :rtype: Exams
         """
         return util.deserialize_model(dikt, cls)
 
     @property
-    def id(self) -> int:
-        """Gets the id of this Exams.
+    def exam_id(self) -> int:
+        """Gets the exam_id of this Exams.
 
 
-        :return: The id of this Exams.
+        :return: The exam_id of this Exams.
         :rtype: int
         """
-        return self._id
+        return self._exam_id
 
-    @id.setter
-    def id(self, id: int):
-        """Sets the id of this Exams.
+    @exam_id.setter
+    def exam_id(self, exam_id: int):
+        """Sets the exam_id of this Exams.
 
 
-        :param id: The id of this Exams.
-        :type id: int
+        :param exam_id: The exam_id of this Exams.
+        :type exam_id: int
         """
-        if id is None:
-            raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
 
-        self._id = id
+        self._exam_id = exam_id
 
     @property
     def name(self) -> str:
@@ -98,22 +96,22 @@ class Exams(Model):
         self._name = name
 
     @property
-    def course_id(self) -> Courses:
+    def course_id(self) -> List[Courses]:
         """Gets the course_id of this Exams.
 
 
         :return: The course_id of this Exams.
-        :rtype: Courses
+        :rtype: List[Courses]
         """
         return self._course_id
 
     @course_id.setter
-    def course_id(self, course_id: Courses):
+    def course_id(self, course_id: List[Courses]):
         """Sets the course_id of this Exams.
 
 
         :param course_id: The course_id of this Exams.
-        :type course_id: Courses
+        :type course_id: List[Courses]
         """
         if course_id is None:
             raise ValueError("Invalid value for `course_id`, must not be `None`")  # noqa: E501

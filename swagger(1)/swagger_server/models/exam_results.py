@@ -17,44 +17,44 @@ class ExamResults(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: int=None, student_id: Students=None, exam_id: Exams=None, score: int=None, result_date: datetime=None, class_id: Classes=None, note: str=None):  # noqa: E501
+    def __init__(self, exam_result_id: int=None, student_id: List[Students]=None, exam_id: List[Exams]=None, score: int=None, result_date: datetime=None, class_id: List[Classes]=None, note: str=None):  # noqa: E501
         """ExamResults - a model defined in Swagger
 
-        :param id: The id of this ExamResults.  # noqa: E501
-        :type id: int
+        :param exam_result_id: The exam_result_id of this ExamResults.  # noqa: E501
+        :type exam_result_id: int
         :param student_id: The student_id of this ExamResults.  # noqa: E501
-        :type student_id: Students
+        :type student_id: List[Students]
         :param exam_id: The exam_id of this ExamResults.  # noqa: E501
-        :type exam_id: Exams
+        :type exam_id: List[Exams]
         :param score: The score of this ExamResults.  # noqa: E501
         :type score: int
         :param result_date: The result_date of this ExamResults.  # noqa: E501
         :type result_date: datetime
         :param class_id: The class_id of this ExamResults.  # noqa: E501
-        :type class_id: Classes
+        :type class_id: List[Classes]
         :param note: The note of this ExamResults.  # noqa: E501
         :type note: str
         """
         self.swagger_types = {
-            'id': int,
-            'student_id': Students,
-            'exam_id': Exams,
+            'exam_result_id': int,
+            'student_id': List[Students],
+            'exam_id': List[Exams],
             'score': int,
             'result_date': datetime,
-            'class_id': Classes,
+            'class_id': List[Classes],
             'note': str
         }
 
         self.attribute_map = {
-            'id': 'Id',
-            'student_id': 'StudentId',
-            'exam_id': 'ExamId',
-            'score': 'Score',
-            'result_date': 'ResultDate',
-            'class_id': 'ClassId',
-            'note': 'Note'
+            'exam_result_id': 'exam_result_id',
+            'student_id': 'student_id',
+            'exam_id': 'exam_id',
+            'score': 'score',
+            'result_date': 'result_date',
+            'class_id': 'class_id',
+            'note': 'note'
         }
-        self._id = id
+        self._exam_result_id = exam_result_id
         self._student_id = student_id
         self._exam_id = exam_id
         self._score = score
@@ -68,51 +68,49 @@ class ExamResults(Model):
 
         :param dikt: A dict.
         :type: dict
-        :return: The ExamResults of this ExamResults.  # noqa: E501
+        :return: The exam_results of this ExamResults.  # noqa: E501
         :rtype: ExamResults
         """
         return util.deserialize_model(dikt, cls)
 
     @property
-    def id(self) -> int:
-        """Gets the id of this ExamResults.
+    def exam_result_id(self) -> int:
+        """Gets the exam_result_id of this ExamResults.
 
 
-        :return: The id of this ExamResults.
+        :return: The exam_result_id of this ExamResults.
         :rtype: int
         """
-        return self._id
+        return self._exam_result_id
 
-    @id.setter
-    def id(self, id: int):
-        """Sets the id of this ExamResults.
+    @exam_result_id.setter
+    def exam_result_id(self, exam_result_id: int):
+        """Sets the exam_result_id of this ExamResults.
 
 
-        :param id: The id of this ExamResults.
-        :type id: int
+        :param exam_result_id: The exam_result_id of this ExamResults.
+        :type exam_result_id: int
         """
-        if id is None:
-            raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
 
-        self._id = id
+        self._exam_result_id = exam_result_id
 
     @property
-    def student_id(self) -> Students:
+    def student_id(self) -> List[Students]:
         """Gets the student_id of this ExamResults.
 
 
         :return: The student_id of this ExamResults.
-        :rtype: Students
+        :rtype: List[Students]
         """
         return self._student_id
 
     @student_id.setter
-    def student_id(self, student_id: Students):
+    def student_id(self, student_id: List[Students]):
         """Sets the student_id of this ExamResults.
 
 
         :param student_id: The student_id of this ExamResults.
-        :type student_id: Students
+        :type student_id: List[Students]
         """
         if student_id is None:
             raise ValueError("Invalid value for `student_id`, must not be `None`")  # noqa: E501
@@ -120,22 +118,22 @@ class ExamResults(Model):
         self._student_id = student_id
 
     @property
-    def exam_id(self) -> Exams:
+    def exam_id(self) -> List[Exams]:
         """Gets the exam_id of this ExamResults.
 
 
         :return: The exam_id of this ExamResults.
-        :rtype: Exams
+        :rtype: List[Exams]
         """
         return self._exam_id
 
     @exam_id.setter
-    def exam_id(self, exam_id: Exams):
+    def exam_id(self, exam_id: List[Exams]):
         """Sets the exam_id of this ExamResults.
 
 
         :param exam_id: The exam_id of this ExamResults.
-        :type exam_id: Exams
+        :type exam_id: List[Exams]
         """
         if exam_id is None:
             raise ValueError("Invalid value for `exam_id`, must not be `None`")  # noqa: E501
@@ -189,22 +187,22 @@ class ExamResults(Model):
         self._result_date = result_date
 
     @property
-    def class_id(self) -> Classes:
+    def class_id(self) -> List[Classes]:
         """Gets the class_id of this ExamResults.
 
 
         :return: The class_id of this ExamResults.
-        :rtype: Classes
+        :rtype: List[Classes]
         """
         return self._class_id
 
     @class_id.setter
-    def class_id(self, class_id: Classes):
+    def class_id(self, class_id: List[Classes]):
         """Sets the class_id of this ExamResults.
 
 
         :param class_id: The class_id of this ExamResults.
-        :type class_id: Classes
+        :type class_id: List[Classes]
         """
         if class_id is None:
             raise ValueError("Invalid value for `class_id`, must not be `None`")  # noqa: E501

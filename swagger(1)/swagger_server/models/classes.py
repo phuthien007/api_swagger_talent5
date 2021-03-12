@@ -16,11 +16,11 @@ class Classes(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: int=None, name: str=None, start_date: datetime=None, end_date: datetime=None, course_id: Courses=None, teacher_id: Teachers=None, status: str=None):  # noqa: E501
+    def __init__(self, class_id: int=None, name: str=None, start_date: datetime=None, end_date: datetime=None, course_id: List[Courses]=None, teacher_id: List[Teachers]=None, status: str=None):  # noqa: E501
         """Classes - a model defined in Swagger
 
-        :param id: The id of this Classes.  # noqa: E501
-        :type id: int
+        :param class_id: The class_id of this Classes.  # noqa: E501
+        :type class_id: int
         :param name: The name of this Classes.  # noqa: E501
         :type name: str
         :param start_date: The start_date of this Classes.  # noqa: E501
@@ -28,32 +28,32 @@ class Classes(Model):
         :param end_date: The end_date of this Classes.  # noqa: E501
         :type end_date: datetime
         :param course_id: The course_id of this Classes.  # noqa: E501
-        :type course_id: Courses
+        :type course_id: List[Courses]
         :param teacher_id: The teacher_id of this Classes.  # noqa: E501
-        :type teacher_id: Teachers
+        :type teacher_id: List[Teachers]
         :param status: The status of this Classes.  # noqa: E501
         :type status: str
         """
         self.swagger_types = {
-            'id': int,
+            'class_id': int,
             'name': str,
             'start_date': datetime,
             'end_date': datetime,
-            'course_id': Courses,
-            'teacher_id': Teachers,
+            'course_id': List[Courses],
+            'teacher_id': List[Teachers],
             'status': str
         }
 
         self.attribute_map = {
-            'id': 'Id',
-            'name': 'Name',
-            'start_date': 'StartDate',
-            'end_date': 'EndDate',
-            'course_id': 'CourseId',
-            'teacher_id': 'TeacherId',
-            'status': 'Status'
+            'class_id': 'class_id',
+            'name': 'name',
+            'start_date': 'start_date',
+            'end_date': 'end_date',
+            'course_id': 'course_id',
+            'teacher_id': 'teacher_id',
+            'status': 'status'
         }
-        self._id = id
+        self._class_id = class_id
         self._name = name
         self._start_date = start_date
         self._end_date = end_date
@@ -67,33 +67,31 @@ class Classes(Model):
 
         :param dikt: A dict.
         :type: dict
-        :return: The Classes of this Classes.  # noqa: E501
+        :return: The classes of this Classes.  # noqa: E501
         :rtype: Classes
         """
         return util.deserialize_model(dikt, cls)
 
     @property
-    def id(self) -> int:
-        """Gets the id of this Classes.
+    def class_id(self) -> int:
+        """Gets the class_id of this Classes.
 
 
-        :return: The id of this Classes.
+        :return: The class_id of this Classes.
         :rtype: int
         """
-        return self._id
+        return self._class_id
 
-    @id.setter
-    def id(self, id: int):
-        """Sets the id of this Classes.
+    @class_id.setter
+    def class_id(self, class_id: int):
+        """Sets the class_id of this Classes.
 
 
-        :param id: The id of this Classes.
-        :type id: int
+        :param class_id: The class_id of this Classes.
+        :type class_id: int
         """
-        if id is None:
-            raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
 
-        self._id = id
+        self._class_id = class_id
 
     @property
     def name(self) -> str:
@@ -163,22 +161,22 @@ class Classes(Model):
         self._end_date = end_date
 
     @property
-    def course_id(self) -> Courses:
+    def course_id(self) -> List[Courses]:
         """Gets the course_id of this Classes.
 
 
         :return: The course_id of this Classes.
-        :rtype: Courses
+        :rtype: List[Courses]
         """
         return self._course_id
 
     @course_id.setter
-    def course_id(self, course_id: Courses):
+    def course_id(self, course_id: List[Courses]):
         """Sets the course_id of this Classes.
 
 
         :param course_id: The course_id of this Classes.
-        :type course_id: Courses
+        :type course_id: List[Courses]
         """
         if course_id is None:
             raise ValueError("Invalid value for `course_id`, must not be `None`")  # noqa: E501
@@ -186,22 +184,22 @@ class Classes(Model):
         self._course_id = course_id
 
     @property
-    def teacher_id(self) -> Teachers:
+    def teacher_id(self) -> List[Teachers]:
         """Gets the teacher_id of this Classes.
 
 
         :return: The teacher_id of this Classes.
-        :rtype: Teachers
+        :rtype: List[Teachers]
         """
         return self._teacher_id
 
     @teacher_id.setter
-    def teacher_id(self, teacher_id: Teachers):
+    def teacher_id(self, teacher_id: List[Teachers]):
         """Sets the teacher_id of this Classes.
 
 
         :param teacher_id: The teacher_id of this Classes.
-        :type teacher_id: Teachers
+        :type teacher_id: List[Teachers]
         """
         if teacher_id is None:
             raise ValueError("Invalid value for `teacher_id`, must not be `None`")  # noqa: E501

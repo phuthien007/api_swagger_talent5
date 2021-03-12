@@ -15,15 +15,15 @@ class Events(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: int=None, name: str=None, class_id: Classes=None, create_date: datetime=None, status: str=None, happen_date: datetime=None):  # noqa: E501
+    def __init__(self, event_id: int=None, name: str=None, class_id: List[Classes]=None, create_date: datetime=None, status: str=None, happen_date: datetime=None):  # noqa: E501
         """Events - a model defined in Swagger
 
-        :param id: The id of this Events.  # noqa: E501
-        :type id: int
+        :param event_id: The event_id of this Events.  # noqa: E501
+        :type event_id: int
         :param name: The name of this Events.  # noqa: E501
         :type name: str
         :param class_id: The class_id of this Events.  # noqa: E501
-        :type class_id: Classes
+        :type class_id: List[Classes]
         :param create_date: The create_date of this Events.  # noqa: E501
         :type create_date: datetime
         :param status: The status of this Events.  # noqa: E501
@@ -32,23 +32,23 @@ class Events(Model):
         :type happen_date: datetime
         """
         self.swagger_types = {
-            'id': int,
+            'event_id': int,
             'name': str,
-            'class_id': Classes,
+            'class_id': List[Classes],
             'create_date': datetime,
             'status': str,
             'happen_date': datetime
         }
 
         self.attribute_map = {
-            'id': 'Id',
-            'name': 'Name',
-            'class_id': 'ClassId',
-            'create_date': 'CreateDate',
-            'status': 'Status',
-            'happen_date': 'HappenDate'
+            'event_id': 'event_id',
+            'name': 'name',
+            'class_id': 'class_id',
+            'create_date': 'create_date',
+            'status': 'status',
+            'happen_date': 'happen_date'
         }
-        self._id = id
+        self._event_id = event_id
         self._name = name
         self._class_id = class_id
         self._create_date = create_date
@@ -61,33 +61,31 @@ class Events(Model):
 
         :param dikt: A dict.
         :type: dict
-        :return: The Events of this Events.  # noqa: E501
+        :return: The events of this Events.  # noqa: E501
         :rtype: Events
         """
         return util.deserialize_model(dikt, cls)
 
     @property
-    def id(self) -> int:
-        """Gets the id of this Events.
+    def event_id(self) -> int:
+        """Gets the event_id of this Events.
 
 
-        :return: The id of this Events.
+        :return: The event_id of this Events.
         :rtype: int
         """
-        return self._id
+        return self._event_id
 
-    @id.setter
-    def id(self, id: int):
-        """Sets the id of this Events.
+    @event_id.setter
+    def event_id(self, event_id: int):
+        """Sets the event_id of this Events.
 
 
-        :param id: The id of this Events.
-        :type id: int
+        :param event_id: The event_id of this Events.
+        :type event_id: int
         """
-        if id is None:
-            raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
 
-        self._id = id
+        self._event_id = event_id
 
     @property
     def name(self) -> str:
@@ -113,22 +111,22 @@ class Events(Model):
         self._name = name
 
     @property
-    def class_id(self) -> Classes:
+    def class_id(self) -> List[Classes]:
         """Gets the class_id of this Events.
 
 
         :return: The class_id of this Events.
-        :rtype: Classes
+        :rtype: List[Classes]
         """
         return self._class_id
 
     @class_id.setter
-    def class_id(self, class_id: Classes):
+    def class_id(self, class_id: List[Classes]):
         """Sets the class_id of this Events.
 
 
         :param class_id: The class_id of this Events.
-        :type class_id: Classes
+        :type class_id: List[Classes]
         """
         if class_id is None:
             raise ValueError("Invalid value for `class_id`, must not be `None`")  # noqa: E501

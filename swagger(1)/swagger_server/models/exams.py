@@ -15,7 +15,7 @@ class Exams(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, exam_id: int=None, name: str=None, course_id: List[Courses]=None):  # noqa: E501
+    def __init__(self, exam_id: int=None, name: str=None, course_id: Courses=None):  # noqa: E501
         """Exams - a model defined in Swagger
 
         :param exam_id: The exam_id of this Exams.  # noqa: E501
@@ -23,12 +23,12 @@ class Exams(Model):
         :param name: The name of this Exams.  # noqa: E501
         :type name: str
         :param course_id: The course_id of this Exams.  # noqa: E501
-        :type course_id: List[Courses]
+        :type course_id: Courses
         """
         self.swagger_types = {
             'exam_id': int,
             'name': str,
-            'course_id': List[Courses]
+            'course_id': Courses
         }
 
         self.attribute_map = {
@@ -96,22 +96,22 @@ class Exams(Model):
         self._name = name
 
     @property
-    def course_id(self) -> List[Courses]:
+    def course_id(self) -> Courses:
         """Gets the course_id of this Exams.
 
 
         :return: The course_id of this Exams.
-        :rtype: List[Courses]
+        :rtype: Courses
         """
         return self._course_id
 
     @course_id.setter
-    def course_id(self, course_id: List[Courses]):
+    def course_id(self, course_id: Courses):
         """Sets the course_id of this Exams.
 
 
         :param course_id: The course_id of this Exams.
-        :type course_id: List[Courses]
+        :type course_id: Courses
         """
         if course_id is None:
             raise ValueError("Invalid value for `course_id`, must not be `None`")  # noqa: E501

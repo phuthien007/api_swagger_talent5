@@ -597,41 +597,21 @@ components:
           type: string
           format: date-time
         course_id:
-          type: array
-          xml:
-            name: courses
-            wrapped: true
-          items:
-            $ref: '#/components/schemas/courses'
+          $ref: '#/components/schemas/courses'
         teacher_id:
-          type: array
-          xml:
-            name: teachers
-            wrapped: true
-          items:
-            $ref: '#/components/schemas/teachers'
+          $ref: '#/components/schemas/teachers'
         status:
           maxLength: 20
           type: string
       example:
         end_date: 2000-01-23T04:56:07.000+00:00
         course_id:
-        - course_id: 0
-          name: name
-          type: type
-          create_date: 2000-01-23T04:56:07.000+00:00
-        - course_id: 0
+          course_id: 0
           name: name
           type: type
           create_date: 2000-01-23T04:56:07.000+00:00
         teacher_id:
-        - full_name: full_name
-          address: address
-          phone: phone
-          teacher_id: 0
-          grade: grade
-          email: ""
-        - full_name: full_name
+          full_name: full_name
           address: address
           phone: phone
           teacher_id: 0
@@ -700,13 +680,9 @@ components:
       type: object
       properties:
         student_id:
-          type: array
-          items:
-            $ref: '#/components/schemas/students'
+          $ref: '#/components/schemas/students'
         class_id:
-          type: array
-          items:
-            $ref: '#/components/schemas/classes'
+          $ref: '#/components/schemas/classes'
         register_day:
           type: string
           format: date-time
@@ -732,9 +708,7 @@ components:
           maxLength: 250
           type: string
         class_id:
-          type: array
-          items:
-            $ref: '#/components/schemas/classes'
+          $ref: '#/components/schemas/classes'
         create_date:
           type: string
           format: date-time
@@ -759,9 +733,7 @@ components:
           maxLength: 500
           type: string
         course_id:
-          type: array
-          items:
-            $ref: '#/components/schemas/courses'
+          $ref: '#/components/schemas/courses'
       xml:
         name: exams
     exam_results:
@@ -777,13 +749,9 @@ components:
           type: integer
           format: int64
         student_id:
-          type: array
-          items:
-            $ref: '#/components/schemas/students'
+          $ref: '#/components/schemas/students'
         exam_id:
-          type: array
-          items:
-            $ref: '#/components/schemas/exams'
+          $ref: '#/components/schemas/exams'
         score:
           type: integer
           format: int32

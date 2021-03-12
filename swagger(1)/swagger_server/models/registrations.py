@@ -16,13 +16,13 @@ class Registrations(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, student_id: List[Students]=None, class_id: List[Classes]=None, register_day: datetime=None, status: str=None, create_date: datetime=None):  # noqa: E501
+    def __init__(self, student_id: Students=None, class_id: Classes=None, register_day: datetime=None, status: str=None, create_date: datetime=None):  # noqa: E501
         """Registrations - a model defined in Swagger
 
         :param student_id: The student_id of this Registrations.  # noqa: E501
-        :type student_id: List[Students]
+        :type student_id: Students
         :param class_id: The class_id of this Registrations.  # noqa: E501
-        :type class_id: List[Classes]
+        :type class_id: Classes
         :param register_day: The register_day of this Registrations.  # noqa: E501
         :type register_day: datetime
         :param status: The status of this Registrations.  # noqa: E501
@@ -31,8 +31,8 @@ class Registrations(Model):
         :type create_date: datetime
         """
         self.swagger_types = {
-            'student_id': List[Students],
-            'class_id': List[Classes],
+            'student_id': Students,
+            'class_id': Classes,
             'register_day': datetime,
             'status': str,
             'create_date': datetime
@@ -63,22 +63,22 @@ class Registrations(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def student_id(self) -> List[Students]:
+    def student_id(self) -> Students:
         """Gets the student_id of this Registrations.
 
 
         :return: The student_id of this Registrations.
-        :rtype: List[Students]
+        :rtype: Students
         """
         return self._student_id
 
     @student_id.setter
-    def student_id(self, student_id: List[Students]):
+    def student_id(self, student_id: Students):
         """Sets the student_id of this Registrations.
 
 
         :param student_id: The student_id of this Registrations.
-        :type student_id: List[Students]
+        :type student_id: Students
         """
         if student_id is None:
             raise ValueError("Invalid value for `student_id`, must not be `None`")  # noqa: E501
@@ -86,22 +86,22 @@ class Registrations(Model):
         self._student_id = student_id
 
     @property
-    def class_id(self) -> List[Classes]:
+    def class_id(self) -> Classes:
         """Gets the class_id of this Registrations.
 
 
         :return: The class_id of this Registrations.
-        :rtype: List[Classes]
+        :rtype: Classes
         """
         return self._class_id
 
     @class_id.setter
-    def class_id(self, class_id: List[Classes]):
+    def class_id(self, class_id: Classes):
         """Sets the class_id of this Registrations.
 
 
         :param class_id: The class_id of this Registrations.
-        :type class_id: List[Classes]
+        :type class_id: Classes
         """
         if class_id is None:
             raise ValueError("Invalid value for `class_id`, must not be `None`")  # noqa: E501

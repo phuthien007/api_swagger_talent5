@@ -15,7 +15,7 @@ class Events(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, event_id: int=None, name: str=None, class_id: List[Classes]=None, create_date: datetime=None, status: str=None, happen_date: datetime=None):  # noqa: E501
+    def __init__(self, event_id: int=None, name: str=None, class_id: Classes=None, create_date: datetime=None, status: str=None, happen_date: datetime=None):  # noqa: E501
         """Events - a model defined in Swagger
 
         :param event_id: The event_id of this Events.  # noqa: E501
@@ -23,7 +23,7 @@ class Events(Model):
         :param name: The name of this Events.  # noqa: E501
         :type name: str
         :param class_id: The class_id of this Events.  # noqa: E501
-        :type class_id: List[Classes]
+        :type class_id: Classes
         :param create_date: The create_date of this Events.  # noqa: E501
         :type create_date: datetime
         :param status: The status of this Events.  # noqa: E501
@@ -34,7 +34,7 @@ class Events(Model):
         self.swagger_types = {
             'event_id': int,
             'name': str,
-            'class_id': List[Classes],
+            'class_id': Classes,
             'create_date': datetime,
             'status': str,
             'happen_date': datetime
@@ -111,22 +111,22 @@ class Events(Model):
         self._name = name
 
     @property
-    def class_id(self) -> List[Classes]:
+    def class_id(self) -> Classes:
         """Gets the class_id of this Events.
 
 
         :return: The class_id of this Events.
-        :rtype: List[Classes]
+        :rtype: Classes
         """
         return self._class_id
 
     @class_id.setter
-    def class_id(self, class_id: List[Classes]):
+    def class_id(self, class_id: Classes):
         """Sets the class_id of this Events.
 
 
         :param class_id: The class_id of this Events.
-        :type class_id: List[Classes]
+        :type class_id: Classes
         """
         if class_id is None:
             raise ValueError("Invalid value for `class_id`, must not be `None`")  # noqa: E501

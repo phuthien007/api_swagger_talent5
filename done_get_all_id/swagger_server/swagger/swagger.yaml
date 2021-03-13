@@ -1,0 +1,880 @@
+openapi: 3.0.0
+info:
+  title: Swagger Petstore
+  description: |
+    This is a sample Petstore server.  You can find
+    out more about Swagger at
+    [http://swagger.io](http://swagger.io) or on
+    [irc.freenode.net, #swagger](http://swagger.io/irc/).
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+
+tags:
+- name: teachers
+  description: field name teachers
+- name: courses
+  description: field name courses
+- name: classes
+  description: field name classes
+- name: students
+  description: field name students
+paths:
+  /api/teachers:
+    get:
+      tags:
+      - teachers
+      summary: show all teachers
+      description: method to get data teacher
+      operationId: get_all_teachers
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/teachers'
+                x-content-type: application/json
+        "400":
+          description: bad request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "405":
+          description: Method Not Allowed
+      x-openapi-router-controller: swagger_server.controllers.teachers_controller
+    put:
+      tags:
+      - teachers
+      summary: method to update
+      operationId: update_teacher
+      requestBody:
+        description: update teacher object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/teachers'
+        required: true
+      responses:
+        "200":
+          description: return a teacher is updated
+        "400":
+          description: bad request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+      x-openapi-router-controller: swagger_server.controllers.teachers_controller
+    post:
+      tags:
+      - teachers
+      summary: add a teacher
+      description: method to add a teacher
+      operationId: add_teacher
+      requestBody:
+        description: create teacher object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/teachers'
+        required: true
+      responses:
+        "200":
+          description: add success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/teachers'
+        "401":
+          description: Unauthorized
+        "405":
+          description: Method Not Allowed
+      x-openapi-router-controller: swagger_server.controllers.teachers_controller
+  /api/teachers/{teacher_id}:
+    get:
+      tags:
+      - teachers
+      summary: Show detail a teacher by id
+      description: method to show info a teacher by teacher_id
+      operationId: get_teacher_by_id
+      parameters:
+      - name: teacher_id
+        in: path
+        description: fill in id a teacher
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: infor a teacher
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/teachers'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/teachers'
+      x-openapi-router-controller: swagger_server.controllers.teachers_controller
+    delete:
+      tags:
+      - teachers
+      summary: delete a teacher by id
+      description: method to delete a teacher by teacher_id
+      operationId: del_teacher_by_id
+      parameters:
+      - name: teacher_id
+        in: path
+        description: fill in id a teacher
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: success
+        "400":
+          description: bad request
+      x-openapi-router-controller: swagger_server.controllers.teachers_controller
+  /api/courses:
+    get:
+      tags:
+      - courses
+      summary: show all courses
+      description: method to get data course
+      operationId: get_all_courses
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/courses'
+                x-content-type: application/json
+        "400":
+          description: bad request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "405":
+          description: Method Not Allowed
+      x-openapi-router-controller: swagger_server.controllers.courses_controller
+    put:
+      tags:
+      - courses
+      summary: method to update
+      operationId: update_course
+      requestBody:
+        description: update course object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/courses'
+        required: true
+      responses:
+        "200":
+          description: return a course is updated
+        "400":
+          description: bad request
+      x-openapi-router-controller: swagger_server.controllers.courses_controller
+    post:
+      tags:
+      - courses
+      summary: add a course
+      description: method to add a course
+      operationId: add_course
+      requestBody:
+        description: create course object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/courses'
+        required: true
+      responses:
+        "200":
+          description: add success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/courses'
+        "401":
+          description: Unauthorized
+        "405":
+          description: Method Not Allowed
+      x-openapi-router-controller: swagger_server.controllers.courses_controller
+  /api/courses/{course_id}:
+    get:
+      tags:
+      - courses
+      summary: Show detail a course by id
+      description: method to show info a course by course_id
+      operationId: get_course_by_id
+      parameters:
+      - name: course_id
+        in: path
+        description: fill in id a course
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: infor a course
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/courses'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/courses'
+        "400":
+          description: bad request
+      x-openapi-router-controller: swagger_server.controllers.courses_controller
+    delete:
+      tags:
+      - courses
+      summary: delete a course by id
+      description: method to delete a course by course_id
+      operationId: del_course_by_id
+      parameters:
+      - name: course_id
+        in: path
+        description: fill in id a course
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: success
+        "400":
+          description: bad request
+      x-openapi-router-controller: swagger_server.controllers.courses_controller
+  /api/classes:
+    get:
+      tags:
+      - classes
+      summary: show all classes
+      description: method to get data course
+      operationId: get_all_classes
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/classes'
+                x-content-type: application/json
+        "400":
+          description: bad request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "405":
+          description: Method Not Allowed
+      x-openapi-router-controller: swagger_server.controllers.classes_controller
+    put:
+      tags:
+      - classes
+      summary: method to update
+      operationId: update_class
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/classes'
+          application/xml:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/classes'
+        required: true
+      responses:
+        "200":
+          description: return a class is updated
+        "400":
+          description: bad request
+      x-openapi-router-controller: swagger_server.controllers.classes_controller
+    post:
+      tags:
+      - classes
+      summary: add a class
+      description: method to add a class
+      operationId: add_class
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/classes'
+          application/xml:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/classes'
+        required: true
+      responses:
+        "200":
+          description: add success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/classes'
+        "401":
+          description: Unauthorized
+        "405":
+          description: Method Not Allowed
+      x-openapi-router-controller: swagger_server.controllers.classes_controller
+  /api/classes/{class_id}:
+    get:
+      tags:
+      - classes
+      summary: Show detail a class by id
+      description: method to show info a class by class_id
+      operationId: get_classes_by_id
+      parameters:
+      - name: class_id
+        in: path
+        description: fill in id a class
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: infor a class
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/classes'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/classes'
+        "400":
+          description: bad request
+      x-openapi-router-controller: swagger_server.controllers.classes_controller
+    delete:
+      tags:
+      - classes
+      summary: delete a class by id
+      description: method to delete a class by class_id
+      operationId: del_class_by_id
+      parameters:
+      - name: class_id
+        in: path
+        description: fill in id a class
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: success
+        "400":
+          description: bad request
+      x-openapi-router-controller: swagger_server.controllers.classes_controller
+  /api/students:
+    get:
+      tags:
+      - students
+      summary: show all students
+      description: method to get data student
+      operationId: get_all_students
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/students'
+                x-content-type: application/json
+        "400":
+          description: bad request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "405":
+          description: Method Not Allowed
+      x-openapi-router-controller: swagger_server.controllers.students_controller
+    put:
+      tags:
+      - students
+      summary: method to update
+      operationId: update_student
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/students'
+        required: true
+      responses:
+        "200":
+          description: return a student is updated
+        "400":
+          description: bad request
+      x-openapi-router-controller: swagger_server.controllers.students_controller
+    post:
+      tags:
+      - students
+      summary: add a student
+      description: method to add a student
+      operationId: add_student
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/students'
+        required: true
+      responses:
+        "200":
+          description: add success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/students'
+        "401":
+          description: Unauthorized
+        "405":
+          description: Method Not Allowed
+      x-openapi-router-controller: swagger_server.controllers.students_controller
+  /api/students/{student_id}:
+    get:
+      tags:
+      - students
+      summary: Show detail a student by id
+      description: method to show info a student by student_id
+      operationId: get_student_by_id
+      parameters:
+      - name: student_id
+        in: path
+        description: fill in id a student
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: infor a student
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/students'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/students'
+        "400":
+          description: bad request
+      x-openapi-router-controller: swagger_server.controllers.students_controller
+    delete:
+      tags:
+      - students
+      summary: delete a student by id
+      description: method to delete a student by student_id
+      operationId: del_student_by_id
+      parameters:
+      - name: student_id
+        in: path
+        description: fill in id a student
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: success
+        "400":
+          description: bad request
+      x-openapi-router-controller: swagger_server.controllers.students_controller
+components:
+  schemas:
+    teachers:
+      required:
+      - full_name
+      type: object
+      properties:
+        teacher_id:
+          type: integer
+          format: int64
+        full_name:
+          maxLength: 250
+          type: string
+        email:
+          maxLength: 100
+          type: string
+          format: email
+        phone:
+          maxLength: 15
+          type: string
+        address:
+          maxLength: 250
+          type: string
+        grade:
+          maxLength: 20
+          type: string
+      description: Table Teachers
+      example:
+        full_name: full_name
+        address: address
+        phone: phone
+        teacher_id: 0
+        grade: grade
+        email: ""
+      xml:
+        name: teachers
+    courses:
+      required:
+      - create_date
+      - name
+      type: object
+      properties:
+        course_id:
+          type: integer
+          format: int64
+        name:
+          maxLength: 200
+          type: string
+        type:
+          maxLength: 50
+          type: string
+        create_date:
+          type: string
+          format: date-time
+      description: table course
+      example:
+        course_id: 0
+        name: name
+        type: type
+        create_date: 2000-01-23T04:56:07.000+00:00
+      xml:
+        name: courses
+    classes:
+      required:
+      - course_id
+      - name
+      - start_date
+      - teacher_id
+      type: object
+      properties:
+        class_id:
+          type: integer
+          format: int64
+        name:
+          maxLength: 250
+          type: string
+        start_date:
+          type: string
+          format: date-time
+        end_date:
+          type: string
+          format: date-time
+        course_id:
+          $ref: '#/components/schemas/courses'
+        teacher_id:
+          $ref: '#/components/schemas/teachers'
+        status:
+          maxLength: 20
+          type: string
+      example:
+        end_date: 2000-01-23T04:56:07.000+00:00
+        course_id:
+          course_id: 0
+          name: name
+          type: type
+          create_date: 2000-01-23T04:56:07.000+00:00
+        teacher_id:
+          full_name: full_name
+          address: address
+          phone: phone
+          teacher_id: 0
+          grade: grade
+          email: ""
+        class_id: 0
+        name: name
+        start_date: 2000-01-23T04:56:07.000+00:00
+        status: status
+      xml:
+        name: classes
+    students:
+      required:
+      - create_date
+      - email
+      - full_name
+      type: object
+      properties:
+        student_id:
+          type: integer
+          format: int64
+        full_name:
+          maxLength: 250
+          type: string
+        address:
+          maxLength: 250
+          type: string
+        email:
+          maxLength: 100
+          type: string
+          format: email
+        phone:
+          maxLength: 15
+          type: string
+        birthday:
+          type: string
+          format: date
+        note:
+          maxLength: 2000
+          type: string
+        facebook:
+          maxLength: 100
+          type: string
+        create_date:
+          type: string
+          format: date-time
+      example:
+        birthday: 2000-01-23
+        note: note
+        full_name: full_name
+        address: address
+        phone: phone
+        facebook: facebook
+        student_id: 0
+        create_date: 2000-01-23T04:56:07.000+00:00
+        email: ""
+      xml:
+        name: students
+    registrations:
+      required:
+      - class_id
+      - create_date
+      - register_day
+      - status
+      - student_id
+      type: object
+      properties:
+        student_id:
+          $ref: '#/components/schemas/students'
+        class_id:
+          $ref: '#/components/schemas/classes'
+        register_day:
+          type: string
+          format: date-time
+        status:
+          maxLength: 10
+          type: string
+        create_date:
+          type: string
+          format: date-time
+    events:
+      required:
+      - class_id
+      - create_date
+      - happen_date
+      - name
+      - status
+      type: object
+      properties:
+        event_id:
+          type: integer
+          format: int64
+        name:
+          maxLength: 250
+          type: string
+        class_id:
+          $ref: '#/components/schemas/classes'
+        create_date:
+          type: string
+          format: date-time
+        status:
+          maxLength: 20
+          type: string
+        happen_date:
+          type: string
+          format: date-time
+      xml:
+        name: events
+    exams:
+      required:
+      - course_id
+      - name
+      type: object
+      properties:
+        exam_id:
+          type: integer
+          format: int64
+        name:
+          maxLength: 500
+          type: string
+        course_id:
+          $ref: '#/components/schemas/courses'
+      xml:
+        name: exams
+    exam_results:
+      required:
+      - class_id
+      - exam_id
+      - result_date
+      - score
+      - student_id
+      type: object
+      properties:
+        exam_result_id:
+          type: integer
+          format: int64
+        student_id:
+          $ref: '#/components/schemas/students'
+        exam_id:
+          $ref: '#/components/schemas/exams'
+        score:
+          type: integer
+          format: int32
+        result_date:
+          type: string
+          format: date-time
+        class_id:
+          $ref: '#/components/schemas/classes'
+        note:
+          maxLength: 2000
+          type: string
+      xml:
+        name: exam_results
+    plans:
+      required:
+      - course_id
+      - name
+      type: object
+      properties:
+        plan_id:
+          type: integer
+          format: int64
+        name:
+          maxLength: 100
+          type: string
+        course_id:
+          $ref: '#/components/schemas/courses'
+      xml:
+        name: plans
+  requestBodies:
+    teachers:
+      description: body teacher
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/teachers'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/teachers'
+      required: true
+    courses:
+      description: body Courses
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/courses'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/courses'
+      required: true
+    classes:
+      description: body Classes
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/classes'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/classes'
+      required: true
+    students:
+      description: body Students
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/students'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/students'
+      required: true
+    registrations:
+      description: body Registrations
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/registrations'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/registrations'
+    events:
+      description: body Events
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/events'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/events'
+      required: true
+    exams:
+      description: body Exams
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/exams'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/exams'
+      required: true
+    exam_results:
+      description: body ExamResults
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/exam_results'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/exam_results'
+      required: true
+    plans:
+      description: body Plans
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/plans'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/plans'
+      required: true
+

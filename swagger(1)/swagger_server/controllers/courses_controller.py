@@ -3,8 +3,9 @@ import six
 
 from swagger_server.models.courses import Courses  # noqa: E501
 from swagger_server import util
+from swagger_server.controllers.utils import*
 
-
+courses= "courses"
 def add_course(body):  # noqa: E501
     """add a course
 
@@ -41,7 +42,18 @@ def get_all_courses():  # noqa: E501
 
     :rtype: List[Courses]
     """
-    return 'do some magic!'
+    rows = get_all_data(courses)
+    if rows == None:
+        return "Not data"
+    data=[]
+    for item in rows.fetchall():
+        data.append({
+        "course_id": item[0],
+        "create_date": item[3],
+        "name": item[1],
+        "type": item[2]
+        })
+    return data
 
 
 def get_course_by_id(course_id):  # noqa: E501
@@ -54,7 +66,16 @@ def get_course_by_id(course_id):  # noqa: E501
 
     :rtype: Courses
     """
-    return 'do some magic!'
+    data_course= get_data_by_id("course",course_id)
+    if data_course == None:
+        return "Not data"
+    data=  {
+        "course_id": data_course[0],
+        "create_date": data_course[3],
+        "name": data_course[1],
+        "type": data_course[2]
+        }
+    return data
 
 
 def update_course(body):  # noqa: E501

@@ -1,0 +1,303 @@
+/****** Object:  Table Teachers    Script Date: 3/10/2021 4:38:27 PM ******/
+CREATE TABLE Teachers(
+	teacher_id serial NOT NULL,
+	full_name varchar(250) NOT NULL,
+	email varchar(100) NULL,
+	phone varchar(15) NULL,
+	address varchar(250) NULL,
+	grade varchar(20) NULL,
+CONSTRAINT pk_giang_vien PRIMARY KEY(teacher_id) 
+	);
+
+CREATE TABLE courses(
+	course_id serial NOT NULL,
+	name varchar(200) NOT NULL,
+	type varchar(50) NULL,
+	create_date timestamp NOT NULL,
+ CONSTRAINT pk_khoa_hoc PRIMARY KEY  (course_id))
+;
+/****** Object:  Table Classes    Script Date: 3/10/2021 4:38:28 PM ******/
+
+CREATE TABLE classes(
+	class_id serial NOT NULL,
+	name varchar(250) NOT NULL,
+	start_date TIMESTAMP NOT NULL,
+	end_date TIMESTAMP NULL,
+	course_id int8 NOT NULL,
+	teacher_id int8 NOT NULL,
+	status varchar(20) NULL,
+ CONSTRAINT pk_lop_hoc PRIMARY KEY  (class_id))
+/****** Object:  View vClasses    Script Date: 3/10/2021 4:38:28 PM ******/
+
+;
+
+CREATE VIEW vclasses 
+AS SELECT
+  c.class_id
+ ,c.name
+ ,c.start_date
+ ,c.end_date
+ ,c.course_id
+ ,c.teacher_id
+ ,c.status
+ ,c1.name course_name
+ ,t.full_name teacher_name
+FROM classes c
+INNER JOIN courses c1
+  ON c.course_id = c1.course_id
+INNER JOIN teachers t
+  ON c.teacher_id = t.teacher_id
+;
+/****** Object:  Table Registrations    Script Date: 3/10/2021 4:38:28 PM ******/
+
+;
+
+;
+CREATE TABLE registrations(
+	student_id int8 NOT NULL,
+	class_id int8 NOT NULL,
+	register_day TIMESTAMP NOT NULL,
+	status varchar(10) NOT NULL,
+	create_date TIMESTAMP NOT NULL,
+ CONSTRAINT pk_registrations PRIMARY KEY  (student_id, class_id)
+/****** Object:  Table Students    Script Date: 3/10/2021 4:38:28 PM ******/
+)
+;
+
+;
+CREATE TABLE students(
+	student_id serial NOT NULL,
+	full_name varchar(250) NOT NULL,
+	address varchar(250) NULL,
+	email varchar(100) NOT NULL,
+	phone varchar(15) NULL,
+	birthday date NULL,
+	note varchar(2000) NULL,
+	facebook varchar(100) NULL,
+	create_date timestamp NOT NULL,
+ CONSTRAINT PK_hoc_vien PRIMARY KEY  (student_id))
+;
+/****** Object:  View vRegistrations    Script Date: 3/10/2021 4:38:28 PM ******/
+
+;
+
+;
+CREATE VIEW vregistrations 
+AS SELECT
+  r.student_id
+ ,r.class_id
+ ,r.register_day
+ ,r.status
+ ,r.create_date
+ ,c.name class_name
+ ,c.course_id
+ ,c.course_name
+ ,c.teacher_name
+ ,c.start_date
+ ,c.end_date
+ ,s.full_name student_name
+ ,s.email student_email
+ ,s.phone student_phone
+FROM registrations r
+INNER JOIN vclasses c
+  ON r.class_id = c.class_id
+INNER JOIN students s
+  ON r.student_id = s.student_id
+;
+/****** Object:  Table Events    Script Date: 3/10/2021 4:38:28 PM ******/
+
+;
+
+;
+CREATE TABLE events(
+	event_id serial NOT NULL,
+	name varchar(250) NOT NULL,
+	class_id int8 NOT NULL,
+	create_date timestamp NOT NULL,
+	status varchar(20) NOT NULL,
+	happen_date timestamp NOT NULL,
+ CONSTRAINT pk_su_kien_1 PRIMARY KEY  (event_id))
+/****** Object:  View vEvents    Script Date: 3/10/2021 4:38:28 PM ******/
+
+;
+CREATE VIEW vevents 
+AS SELECT
+  e.event_id
+ ,e.name
+ ,e.class_id
+ ,e.create_date
+ ,e.status
+ ,e.happen_date
+ ,c.name class_name
+FROM events e
+INNER JOIN classes c
+  ON e.class_id = c.event_id
+;
+/****** Object:  Table Exams    Script Date: 3/10/2021 4:38:28 PM ******/
+
+;
+
+;
+CREATE TABLE exams(
+	exam_id serial NOT NULL,
+	name varchar(500) NOT NULL,
+	course_id int8 NOT NULL,
+ CONSTRAINT pk_bai_kiem_tra PRIMARY KEY  (exam_id))
+/****** Object:  View vExams    Script Date: 3/10/2021 4:38:28 PM ******/
+
+
+;
+CREATE VIEW vexams 
+AS SELECT
+  e.exam_id
+ ,e.name
+ ,e.course_id
+ ,c.name course_name
+FROM exams e
+INNER JOIN courses c
+  ON e.course_id = c.course_id
+;
+/****** Object:  Table ExamResults    Script Date: 3/10/2021 4:38:28 PM ******/
+
+;
+
+;
+CREATE TABLE exam_results(
+	exam_result_id serial NOT NULL,
+	student_id int8 NOT NULL,
+	exam_id int8 NOT NULL,
+	score int NOT NULL,
+	result_date TIMESTAMP NOT NULL,
+	class_id int8 NOT NULL,
+	note varchar(2000) NULL,
+ CONSTRAINT pk_diem_so PRIMARY KEY  (exam_result_id))
+/****** Object:  View vExamResults    Script Date: 3/10/2021 4:38:28 PM ******/
+
+;
+
+;
+CREATE VIEW vexam_results 
+AS SELECT
+  er.exam_result_id
+ ,er.student_id
+ ,er.exam_id
+ ,er.score
+ ,er.result_date
+ ,er.note
+ ,e.name exam_name
+ ,e.course_id
+ ,e.course_name
+ ,er.class_id
+ ,c.name class_name
+ ,s.full_name student_name
+ ,s.email student_email
+ ,s.phone student_phone
+FROM exam_results er
+INNER JOIN vexams e
+  ON er.exam_id = e.exam_id
+INNER JOIN students s
+  ON er.student_id = s.student_id
+INNER JOIN classes c
+  ON er.class_id = c.class_id
+;
+/****** Object:  Table Plans    Script Date: 3/10/2021 4:38:28 PM ******/
+
+;
+
+;
+CREATE TABLE plans(
+	plan_id serial NOT NULL,
+	name varchar(100) NOT NULL,
+	course_id int8 NOT NULL,
+ CONSTRAINT pk_su_kien PRIMARY KEY  (plan_id))
+/****** Object:  View vPlans    Script Date: 3/10/2021 4:38:28 PM ******/
+
+;
+
+;
+CREATE VIEW vplans 
+AS SELECT
+  p.plan_id
+ ,p.name
+ ,p.course_id
+  , c.name course_name
+FROM plans p
+INNER JOIN courses c
+  ON p.course_id = c.course_id
+;
+
+;
+/****** Object:  Index UIDX_students_email    Script Date: 3/10/2021 4:38:28 PM ******/
+CREATE UNIQUE INDEX UIDX_students_email ON students
+(
+	email
+)
+	/* (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON PRIMARY
+;
+*/
+;
+/****** Object:  Index UIDX_teachers_email    Script Date: 3/10/2021 4:38:29 PM ******/
+CREATE UNIQUE INDEX UIDX_teachers_email ON teachers
+(
+	Email ASC
+);
+-- 	 (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON PRIMARY
+-- ;
+ALTER TABLE events ALTER COLUMN happen_date SET DEFAULT NOW()::timestamp ;
+ALTER TABLE registrations ALTER COLUMN create_date SET  DEFAULT (NOW() :: timestamp) 
+;
+ALTER TABLE students ALTER COLUMN create_date SET  DEFAULT (NOW() :: timestamp) 
+;
+ALTER TABLE classes    ADD  CONSTRAINT fk_lop_hoc_giang_vien FOREIGN KEY(teacher_id)
+REFERENCES teachers (teacher_id)
+;
+ALTER TABLE classes  CONSTRAINT fk_lop_hoc_giang_vien
+;
+ALTER TABLE classes    ADD  CONSTRAINT fk_lop_hoc_khoa_hoc FOREIGN KEY(course_id)
+REFERENCES courses (course_id)
+;
+ALTER TABLE classes  CONSTRAINT fk_lop_hoc_khoa_hoc
+;
+ALTER TABLE events    ADD  CONSTRAINT fk_su_kien_lop_hoc FOREIGN KEY(class_id)
+REFERENCES classes (class_id)
+;
+ALTER TABLE events  CONSTRAINT fk_su_kien_lop_hoc
+;
+ALTER TABLE exam_results    ADD  CONSTRAINT fk_diem_so_bai_kiem_tra FOREIGN KEY(exam_id)
+REFERENCES exams (exam_id)
+;
+ALTER TABLE exam_results  CONSTRAINT fk_diem_so_bai_kiem_tra
+;
+ALTER TABLE exam_results    ADD  CONSTRAINT fk_diem_so_hoc_vien FOREIGN KEY(student_id)
+REFERENCES students (student_id)
+;
+ALTER TABLE exam_results  CONSTRAINT fk_diem_so_hoc_vien
+;
+ALTER TABLE exam_results    ADD  CONSTRAINT fk_exam_results_class_id FOREIGN KEY(class_id)
+REFERENCES classes (class_id)
+;
+ALTER TABLE exam_results  CONSTRAINT fk_exam_results_class_id
+;
+ALTER TABLE exams    ADD  CONSTRAINT fk_bai_kiem_tra_khoa_hoc FOREIGN KEY(course_id)
+REFERENCES courses (course_id)
+;
+ALTER TABLE exams  CONSTRAINT fk_bai_kiem_tra_khoa_hoc
+;
+ALTER TABLE plans    ADD  CONSTRAINT fk_su_kien_khoa_hoc FOREIGN KEY(course_id)
+REFERENCES courses (course_id)
+;
+ALTER TABLE plans  CONSTRAINT fk_su_kien_khoa_hoc
+;
+ALTER TABLE registrations    ADD  CONSTRAINT fk_dang_ky_hoc_vien FOREIGN KEY(student_id)
+REFERENCES students (student_id)
+;
+ALTER TABLE registrations  CONSTRAINT fk_dang_ky_hoc_vien
+;
+ALTER TABLE registrations    ADD  CONSTRAINT fk_dang_ky_lop_hoc FOREIGN KEY(class_id)
+REFERENCES classes (class_id)
+;
+ALTER TABLE registrations  CONSTRAINT fk_dang_ky_lop_hoc
+;
+;
+ALTER DATABASE management_students SET  READ_WRITE 
+;

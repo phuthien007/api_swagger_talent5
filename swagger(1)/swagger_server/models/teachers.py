@@ -112,8 +112,6 @@ class Teachers(Model):
     @property
     def email(self) -> str:
         """Gets the email of this Teachers.
-
-
         :return: The email of this Teachers.
         :rtype: str
         """

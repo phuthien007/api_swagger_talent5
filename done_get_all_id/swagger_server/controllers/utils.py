@@ -1,36 +1,62 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.automap import automap_base
+from swagger_server.models import*
 engine = create_engine('postgresql://postgres:Thienphu1@localhost:5432/ManagementStudents')
 
-Session= sessionmaker(engine)
+Session= sessionmaker()
+#config engine with session api
+Session.configure(bind= engine)
 session= Session()
+Base= automap_base()
+Base.prepare(engine, reflect= True)
+# instant of table Teachers
+Teachers_instants= Base.classes.teachers
+# instant of table Courses
+Courses_instants= Base.classes.courses
+# instant of table Classes
+Classes_instants= Base.classes.classes
+# instant of table students
+Students_instants= Base.classes.students
+# instant of table events
+Events_instants= Base.classes.events
+# instant of table exam_results
+Exam_results_instants= Base.classes.exam_results
+# instant of table registrations
+Registrations_instants = Base.classes.registrations
+# instant of table exams
+Exams_instants= Base.classes.exams
+# instant of table plan
+Plans_instants= Base.classes.plans
 #get data
 def get_all_data(obj):
-    with engine.begin() as conn:
-        sql= f'''
-    SELECT * FROM {obj}
-    '''
-        rows= conn.execute(sql)
-        if rows == None or rows == "":
-            return None
-        return rows
+    rows= session.query(obj)
+    return rows
+
+# func to add a instant object into table object through orm api session
+def add_data(obj):
+    try:
+        session.add(obj)
+        session.commit()
+    except Exception:
+        session.rollback()
+    finally:
+        session.close()
     
-def get_data_by_id(obj, id):
-    with engine.begin() as conn:
-        sql =f'''
-            SELECT * FROM {obj}s
-            WHERE {obj}_id = {id}
-        '''
-        row= conn.execute(sql).fetchone()
-        if row == None or row == "":
-            return None 
-        return row
+def add_data(obj):
+    try:
+        session.add(obj)
+        session.commit()
+    except Exception:
+        session.rollback()
+    finally:
+        session.close()
 
-
-def add_data(sql):
-    with engine.begin() as conn:
-        status= conn.execute(sql)
-        if status == '':
-            return True
-        else:
-            return False
+def delete_data(obj):
+    try:
+        session.delete(obj)
+        session.commit()
+    except Exception:
+        session.rollback()
+    finally:
+        session.close()

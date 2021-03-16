@@ -124,6 +124,10 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/teachers'
+        "404":
+          description: Not Found
+        "400":
+          description: Bad request
       x-openapi-router-controller: swagger_server.controllers.teachers_controller
     delete:
       tags:
@@ -631,7 +635,6 @@ components:
         name: classes
     students:
       required:
-      - create_date
       - email
       - full_name
       type: object
@@ -679,7 +682,6 @@ components:
     registrations:
       required:
       - class_id
-      - create_date
       - register_day
       - status
       - student_id
@@ -701,7 +703,6 @@ components:
     events:
       required:
       - class_id
-      - create_date
       - happen_date
       - name
       - status

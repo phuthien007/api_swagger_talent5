@@ -17,8 +17,10 @@ def add_course(body):  # noqa: E501
     :rtype: Courses
     """
     if connexion.request.is_json:
-        body = [Courses.from_dict(connexion.request.get_json())]  # noqa: E501
-    return 'do some magic!'
+        body = [Courses.from_dict(connexion.request.get_json())][0]  # noqa: E501
+    new_course= Courses_instants(name=body.name, type= body.type,create_date= body.create_date)
+    add_data(new_course)
+    return body
 
 
 def del_course_by_id(course_id):  # noqa: E501
@@ -31,7 +33,28 @@ def del_course_by_id(course_id):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    try:
+        current_course= session.query(Courses_instants).filter(Courses_instants.course_id == course_id).first()
+        current_class= session.query(Classes_instants).filter(Classes_instants.course_id == current_course.course_id).first()
+        current_exam= session.query(Exams_instants).filter(Exams_instants.course_id == course_id).first()
+        current_plan= session.query(Plans_instants.course_id == course_id ).first()
+        if current_course == None:
+            return "404 - Not Found"
+        elif current_class != None:
+            return "400 - bad request ( table classes)"
+        elif current_exam != None:
+            return "400 - bad request ( table exams) "
+        elif current_plan != None:
+            return "400 - bad request ( table plans)"
+        else:
+            delete_data(current_course)
+            session.commit()
+            return "success"
+    except Exception:
+        session.rollback()
+        return "404 not found"
+    finally:
+        session.close()
 
 
 def get_all_courses():  # noqa: E501
@@ -42,16 +65,16 @@ def get_all_courses():  # noqa: E501
 
     :rtype: List[Courses]
     """
-    rows = get_all_data(courses)
+    rows = get_all_data(Courses_instants)
     if rows == None:
         return "Not data"
     data=[]
-    for item in rows.fetchall():
+    for item in rows:
         data.append({
-        "course_id": item[0],
-        "create_date": item[3],
-        "name": item[1],
-        "type": item[2]
+        "course_id": item.course_id,
+        "create_date": item.create_date,
+        "name": item.name,
+        "type": item.type
         })
     return data
 
@@ -66,17 +89,16 @@ def get_course_by_id(course_id):  # noqa: E501
 
     :rtype: Courses
     """
-    data_course= get_data_by_id("course",course_id)
-    if data_course == None:
+    item= session.query(Courses_instants).filter(Courses_instants.course_id == course_id).first()
+    if item == None:
         return "Not data"
-    data=  {
-        "course_id": data_course[0],
-        "create_date": data_course[3],
-        "name": data_course[1],
-        "type": data_course[2]
+    data= {
+        "course_id": item.course_id,
+        "create_date": item.create_date,
+        "name": item.name,
+        "type": item.type
         }
     return data
-
 
 def update_course(body):  # noqa: E501
     """method to update
@@ -89,5 +111,16 @@ def update_course(body):  # noqa: E501
     :rtype: None
     """
     if connexion.request.is_json:
-        body = [Courses.from_dict(connexion.request.get_json())]  # noqa: E501
-    return 'do some magic!'
+        body = [Courses.from_dict(connexion.request.get_json())][0]  # noqa: E501
+    try:
+        current_course= session.query(Courses_instants).filter(Courses_instants.course_id == body.course_id).first()
+        current_course.name= body.name,
+        current_course.type= body.type,
+        current_course.create_date= body.create_date,
+        session.commit()
+        return body
+    except Exception:
+        return "fail"
+        session.rollback()  
+    finally:
+        session.close()

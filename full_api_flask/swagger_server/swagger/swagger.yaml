@@ -768,8 +768,6 @@ paths:
           description: created success
         "400":
           description: bad request
-      security:
-      - bearer_auth: []
       x-openapi-router-controller: swagger_server.controllers.users_controller
   /api/users/{user_id}:
     get:

@@ -48,8 +48,8 @@ def add_student(body):  # noqa: E501
     except Exception:
         return errors["400"][0],errors["400"][1]
 
-
-def del_student_by_id(student_id):  # noqa: E501
+@token_required
+def del_student_by_id(f,student_id):  # noqa: E501
     """delete a student by id
 
     method to delete a student by student_id # noqa: E501
@@ -59,8 +59,10 @@ def del_student_by_id(student_id):  # noqa: E501
 
     :rtype: None
     """
-    f= ""
-    token_required(f)
+    permis= get_per_id("can_delete_student_by_id")
+    permit = get_permis((f.role_id), (permis))
+    if permis:
+        return jsonify({"message":"the user dont has permision to request"}), 400 
     try:
         current_student= session.query(Students_instants).filter(Students_instants.student_id == student_id).first()
         current_exam_results= session.query(Exam_results_instants).filter(Exam_results_instants.student_id == current_student.student_id).first()
@@ -92,6 +94,10 @@ def get_all_students(f,type_name=None, key_word=None, page_num=None, records_per
 
     :rtype: List[Students]
     """
+    permis= get_per_id("can_view_all_students")
+    permit = get_permis((f.role_id), (permis))
+    if permis:
+        return jsonify({"message":"the user dont has permision to request"}), 400
     rows = get_all_data(Students_instants)
     if rows == None:
         return errors["400"][0],errors["400"][1]
@@ -116,8 +122,8 @@ def get_all_students(f,type_name=None, key_word=None, page_num=None, records_per
         })
     return data
 
-
-def get_student_by_id(student_id):  # noqa: E501
+@token_required
+def get_student_by_id(f,student_id):  # noqa: E501
     """Show detail a student by id
 
     method to show info a student by student_id # noqa: E501
@@ -127,8 +133,10 @@ def get_student_by_id(student_id):  # noqa: E501
 
     :rtype: Students
     """
-    f= ""
-    token_required(f)
+    permis= get_per_id("can_view_student_by_id")
+    permit = get_permis((f.role_id), (permis))
+    if permis:
+        return jsonify({"message":"the user dont has permision to request"}), 400
     item= session.query(Students_instants).filter(Students_instants.student_id == student_id).first()
     if item == None:
         return  errors["404"][0],errors["404"][1]
@@ -145,9 +153,9 @@ def get_student_by_id(student_id):  # noqa: E501
         }
     return data
 
-def update_student(body):  # noqa: E501
-    f= ""
-    token_required(f)
+@token_required
+def update_student(f,body):  # noqa: E501
+   
     """method to update
 
      # noqa: E501
@@ -157,6 +165,10 @@ def update_student(body):  # noqa: E501
 
     :rtype: None
     """
+    permis= get_per_id("can_update_student")
+    permit = get_permis((f.role_id), (permis))
+    if permis:
+        return jsonify({"message":"the user dont has permision to request"}), 400
     if connexion.request.is_json:
         body = [Students.from_dict(connexion.request.get_json())][0]  # noqa: E501
     try:

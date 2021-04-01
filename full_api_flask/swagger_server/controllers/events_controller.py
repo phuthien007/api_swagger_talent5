@@ -47,8 +47,8 @@ def add_event(f,body):  # noqa: E501
         return jsonify({"message":f"{e}"}),400
 
 
-
-def del_event_by_id(event_id):  # noqa: E501
+@token_required
+def del_event_by_id(f,event_id):  # noqa: E501
     """delete a event by id
 
     method to delete a event by event_id # noqa: E501
@@ -58,14 +58,17 @@ def del_event_by_id(event_id):  # noqa: E501
 
     :rtype: None
     """
-    f=""
-    token_required(f)
+    permis= get_per_id("can_delete_event_by_id")
+    permit = get_permis((f.role_id), (permis))
+    if permis:
+        return jsonify({"message":"the user dont has permision to request"}), 400 
     choose_event= session.query(Events_instants).filter(Events_instants.event_id == event_id).first()
     if not choose_event:
         return jsonify({"message":"ID Unknown"}),404
     delete_data(choose_event)
     return "success"
 
+@token_required
 def get_all_events(f,key_word=None, page_num=None, records_per_page=None):  # noqa: E501
     
     """show all events
@@ -81,8 +84,8 @@ def get_all_events(f,key_word=None, page_num=None, records_per_page=None):  # no
 
     :rtype: List[Events]
     """
-    f=""
-    token_required(f)
+    permis= get_per_id("can_view_all_events")
+    permit = get_permis((f.role_id), (permis))
     rows= get_all_data(Events_instants)
     if rows == None:
         return errors["400"][0],errors["400"][1]
@@ -113,8 +116,8 @@ def get_all_events(f,key_word=None, page_num=None, records_per_page=None):  # no
         })
     return data
 
-
-def get_event_by_id(event_id):  # noqa: E501
+@token_required
+def get_event_by_id(f,event_id):  # noqa: E501
     """Show detail a event by id
 
     method to show info a event by event_id # noqa: E501
@@ -124,8 +127,10 @@ def get_event_by_id(event_id):  # noqa: E501
 
     :rtype: Events
     """
-    f= ""
-    token_required(f)
+    permis= get_per_id("can_view_events_by_id")
+    permit = get_permis((f.role_id), (permis))
+    if permis:
+        return jsonify({"message":"the user dont has permision to request"}), 400
     # orm api session
     item= session.query(Events_instants).filter(Events_instants.event_id == event_id).first() 
     if item == None:

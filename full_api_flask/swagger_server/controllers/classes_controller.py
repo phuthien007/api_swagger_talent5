@@ -53,7 +53,8 @@ def add_class(body):  # noqa: E501
     except Exception :
         return errors["400"][0],errors["400"][1]
 
-def del_class_by_id(class_id):  # noqa: E501
+@token_required
+def del_class_by_id(f,class_id):  # noqa: E501
     """delete a class by id
 
     method to delete a class by class_id # noqa: E501
@@ -63,8 +64,10 @@ def del_class_by_id(class_id):  # noqa: E501
 
     :rtype: None
     """
-    f= ""
-    token_required(f)
+    permis= get_per_id("can_delete_class_by_id")
+    permit = get_permis((f.role_id), (permis))
+    if permis:
+        return jsonify({"message":"the user dont has permision to request"}), 400 
     try:
         current_class= session.query(Classes_instants).filter(Classes_instants.class_id == class_id).first()
         current_exam_result= session.query(Exam_results_instants).filter(Exam_results_instants.class_id == class_id).first()
@@ -95,7 +98,8 @@ def get_all_classes(f,type_name=None, key_word=None, page_num=None, records_per_
     method to get data course # noqa: E501
     :rtype: List[Classes]
     """
-   
+    permis= get_per_id("can_view_all_classes")
+    permit = get_permis((f.role_id), (permis))
     rows = get_all_data(Classes_instants)
     if rows == None:
         return errors["400"][0],errors["400"][1]
@@ -128,8 +132,8 @@ def get_all_classes(f,type_name=None, key_word=None, page_num=None, records_per_
         })
     return data
 
-
-def get_classes_by_id(class_id):  # noqa: E501
+@token_required
+def get_classes_by_id(f,class_id):  # noqa: E501
     """Show detail a class by id
 
     method to show info a class by class_id # noqa: E501
@@ -139,8 +143,10 @@ def get_classes_by_id(class_id):  # noqa: E501
 
     :rtype: Classes
     """
-    f= ""
-    token_required(f)
+    permis= get_per_id("can_view_class_by_id")
+    permit = get_permis((f.role_id), (permis))
+    if permis:
+        return jsonify({"message":"the user dont has permision to request"}), 400
     # orm api session
     item= session.query(Classes_instants).filter(Classes_instants.class_id == class_id).first() 
     if item == None:

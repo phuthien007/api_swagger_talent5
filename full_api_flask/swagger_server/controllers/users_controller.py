@@ -26,8 +26,6 @@ def token_required(f):
         return f(user, *args, **kwargs)
     return decorated
 def create_user(body):  # noqa: E501
-    f= ""
-    token_required(f)
     """the method to register
 
     you can register user # noqa: E501
@@ -53,8 +51,8 @@ def create_user(body):  # noqa: E501
     session.commit()
     return body
 
-
-def del_user_by_id(user_id):  # noqa: E501
+@token_required
+def del_user_by_id(f,user_id):  # noqa: E501
     """delete a user by id
 
     method to delete a user by user_id # noqa: E501
@@ -64,8 +62,10 @@ def del_user_by_id(user_id):  # noqa: E501
 
     :rtype: None 
     """
-    f= ""
-    token_required(f)
+    permis= get_per_id("can_delete_user_by_id")
+    permit = get_permis((f.role_id), (permis))
+    if permis:
+        return jsonify({"message":"the user dont has permision to request"}), 400 
     user= session.query(Users_instants).filter(Users_instants.user_id == user_id).first()
     if not user:
         return jsonify({'message':'user does not exist'}), 401
@@ -88,6 +88,10 @@ def get_all_users(f,key_word=None, page_num=None, records_per_page=None):  # noq
 
     :rtype: List[Users]
     """
+    permis= get_per_id("can_view_all_users")
+    permit = get_permis((f.role_id), (permis))
+    if permis:
+        return jsonify({"message":"the user dont has permision to request"}), 400
     rows= get_all_data(Users_instants)
     # if rows == None:
     #     return errors["400"][0],errors["400"][1]
@@ -115,8 +119,8 @@ def get_all_users(f,key_word=None, page_num=None, records_per_page=None):  # noq
     
 
 
-
-def get_user_by_id(user_id):  # noqa: E501
+@token_required
+def get_user_by_id(f,user_id):  # noqa: E501
     """Show detail a user by id
 
     method to show info a user by student_id # noqa: E501
@@ -126,8 +130,10 @@ def get_user_by_id(user_id):  # noqa: E501
 
     :rtype: Users
     """
-    f= ""
-    token_required(f)
+    permis= get_per_id("can_view_user_by_id")
+    permit = get_permis((f.role_id), (permis))
+    if permis:
+        return jsonify({"message":"the user dont has permision to request"}), 400 
     get_user= session.query(Users_instants).filter(Users_instants.user_id == user_id).first()
     if not get_user:
         return jsonify({'message':'Id Unknown'}), 401
@@ -177,10 +183,9 @@ def login_user(body=None):  # noqa: E501
         }, app.secret_key, algorithm='HS256')
         return make_response(jsonify({'token': token.decode('utf-8') }))
 
-
-def update_user(body):  # noqa: E501
-    f= ""
-    token_required(f)
+@token_required
+def update_user(f,body):  # noqa: E501
+    
     """the method to register
 
     you can register user # noqa: E501
@@ -190,6 +195,10 @@ def update_user(body):  # noqa: E501
 
     :rtype: None
     """
+    permis= get_per_id("can_update_user")
+    permit = get_permis((f.role_id), (permis))
+    if permis:
+        return jsonify({"message":"the user dont has permision to request"}), 400
     if connexion.request.is_json:
         body = Users.from_dict(connexion.request.get_json())  # noqa: E501
 

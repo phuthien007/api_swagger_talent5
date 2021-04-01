@@ -46,10 +46,9 @@ def add_exam(f,body):  # noqa: E501
         
         return jsonify({"message":f"{e}"}),400
 
-
-def del_exam_by_id(exam_id):  # noqa: E501
-    f= ""
-    token_required(f)
+@token_required
+def del_exam_by_id(f,exam_id):  # noqa: E501
+    
     """delete a exam by id
 
     method to delete a exam by exam_id # noqa: E501
@@ -59,6 +58,10 @@ def del_exam_by_id(exam_id):  # noqa: E501
 
     :rtype: None
     """
+    permis= get_per_id("can_delete_exam_by_id")
+    permit = get_permis((f.role_id), (permis))
+    if permis:
+        return jsonify({"message":"the user dont has permision to request"}), 400 
     item= session.query(Exams_instants).filter(Exams_instants.exam_id == exam_id).first()
     if item == None:
         return  errors["404"][0],errors["404"][1]
@@ -80,6 +83,10 @@ def get_all_exams(f, key_word=None, page_num=None, records_per_page=None):  # no
 
     :rtype: List[Exams]
     """
+    permis= get_per_id("can_view_all_exams")
+    permit = get_permis((f.role_id), (permis))
+    if permis:
+        return jsonify({"message":"the user dont has permision to request"}), 400
     rows= get_all_data(Exams_instants)
     if not rows:
         return jsonify({"message":"not data"}),400
@@ -115,6 +122,10 @@ def get_exam_by_id(f,exam_id):  # noqa: E501
 
     :rtype: Exams
     """
+    permis= get_per_id("can_view_exam_by_id")
+    permit = get_permis((f.role_id), (permis))
+    if permis:
+        return jsonify({"message":"the user dont has permision to request"}), 400
     item= session.query(Exams_instants).filter(Exams_instants.exam_id == exam_id).first()
     if item == None:
         return  errors["404"][0],errors["404"][1]
@@ -126,10 +137,9 @@ def get_exam_by_id(f,exam_id):  # noqa: E501
     }
     return data
 
-
-def update_exam(body):  # noqa: E501
-    f= ""
-    token_required(f)
+@token_required
+def update_exam(f,body):  # noqa: E501
+    
     """method to update
 
      # noqa: E501
@@ -139,6 +149,10 @@ def update_exam(body):  # noqa: E501
 
     :rtype: None
     """
+    permis= get_per_id("can_update_exam")
+    permit = get_permis((f.role_id), (permis))
+    if permis:
+        return jsonify({"message":"the user dont has permision to request"}), 400
     if connexion.request.is_json:
         body = Exams.from_dict(connexion.request.get_json()) # noqa: E501
    

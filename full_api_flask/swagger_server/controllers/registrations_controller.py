@@ -44,6 +44,7 @@ def add_registration(f,body):  # noqa: E501
         return data
     except Exception as e:
         return jsonify({"message":f"{e}"}),400
+
 @token_required
 def del_registration_by_id(f, class_id, student_id):  # noqa: E501
    
@@ -56,6 +57,10 @@ def del_registration_by_id(f, class_id, student_id):  # noqa: E501
 
     :rtype: None
     """
+    permis= get_per_id("can_delete_registration_by_id")
+    permit = get_permis((f.role_id), (permis))
+    if permis:
+        return jsonify({"message":"the user dont has permision to request"}), 400 
     item= session.query(Registrations_instants).filter(and_(Registrations_instants.class_id == class_id, Registrations_instants.student_id == student_id)).first()
     if not item:
         return jsonify({"message":"registration is not exist"}),400
@@ -77,6 +82,10 @@ def get_all_registrations(f,key_word=None, page_num=None, records_per_page=None)
 
     :rtype: List[Registrations]
     """
+    permis= get_per_id("can_view_all_registrations")
+    permit = get_permis((f.role_id), (permis))
+    if permis:
+        return jsonify({"message":"the user dont has permision to request"}), 400
     rows= get_all_data(Registrations_instants)
     if not rows:
         return jsonify({"message":"bad request"}),400
@@ -117,6 +126,10 @@ def get_registration_by_id(f,class_id, student_id):  # noqa: E501
 
     :rtype: Registrations
     """
+    permis= get_per_id("can_view_registration_by_id")
+    permit = get_permis((f.role_id), (permis))
+    if permis:
+        return jsonify({"message":"the user dont has permision to request"}), 400
     item= session.query(Registrations_instants).filter(and_(Registrations_instants.class_id == class_id, Registrations_instants.student_id == student_id)).first()
     if not item:
         return jsonify({"message":"registration is not exist"}),400
@@ -143,6 +156,10 @@ def update_registration(f,body):  # noqa: E501
 
     :rtype: None
     """
+    permis= get_per_id("can_update_registration")
+    permit = get_permis((f.role_id), (permis))
+    if permis:
+        return jsonify({"message":"the user dont has permision to request"}), 400
     if connexion.request.is_json:
         body = Registrations.from_dict(connexion.request.get_json())  # noqa: E501
     

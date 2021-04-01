@@ -55,10 +55,9 @@ def add_exam_result(f,body):  # noqa: E501
         print(e) 
         return jsonify({"message":"Bad request"}), 400
 
-
-def del_exam_result_by_id(exam_result_id):  # noqa: E501
-    f= ""
-    token_required(f)
+@token_required
+def del_exam_result_by_id(f,exam_result_id):  # noqa: E501
+    
     """delete a exam_result by id
 
     method to delete a exam_result by exam_result_id # noqa: E501
@@ -68,6 +67,10 @@ def del_exam_result_by_id(exam_result_id):  # noqa: E501
 
     :rtype: None
     """
+    permis= get_per_id("can_delete_exam_result_by_id")
+    permit = get_permis((f.role_id), (permis))
+    if permis:
+        return jsonify({"message":"the user dont has permision to request"}), 400
     item= session.query(Exam_results_instants).filter(Exam_results_instants.exam_result_id == exam_result_id).first()
     if item == None:
         return  errors["404"][0],errors["404"][1]
@@ -132,6 +135,10 @@ def get_exam_result_by_id(f,exam_result_id):  # noqa: E501
 
     :rtype: ExamResults
     """
+    permis= get_per_id("can_view_exam_result_by_id")
+    permit = get_permis((f.role_id), (permis))
+    if permis:
+        return jsonify({"message":"the user dont has permision to request"}), 400
     item= session.query(Exam_results_instants).filter(Exam_results_instants.exam_result_id == exam_result_id).first()
     if item == None:
         return  errors["404"][0],errors["404"][1]

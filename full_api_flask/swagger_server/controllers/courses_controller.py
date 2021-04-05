@@ -55,8 +55,8 @@ def del_course_by_id(f,course_id):  # noqa: E501
     :rtype: None
     """
     permis= get_per_id("can_delete_course_by_id")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400 
     try:
         current_course= session.query(Courses_instants).filter(Courses_instants.course_id == course_id).first()
@@ -93,7 +93,9 @@ def get_all_courses(f,type_name=None, key_word=None, page_num=None, records_per_
     :rtype: List[Courses]
     """
     permis= get_per_id("can_view_all_courses")
-    permit = get_permis((f.role_id), (permis))
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
+        return jsonify({"message": "the user dont has permision to request"}), 400
     rows = get_all_data(Courses_instants)
     if rows == None:
         return errors["400"][0],errors["400"][1]
@@ -125,8 +127,8 @@ def get_course_by_id(f,course_id):  # noqa: E501
     :rtype: Courses
     """
     permis= get_per_id("can_view_course_by_id")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400
     item= session.query(Courses_instants).filter(Courses_instants.course_id == course_id).first()
     if item == None:
@@ -139,9 +141,13 @@ def get_course_by_id(f,course_id):  # noqa: E501
         }
     return data
 
-def update_course(body):  # noqa: E501
-    f= ""
-    token_required(f)
+@token_required
+def update_course(f,body):  # noqa: E501
+    permis = get_per_id("can_update_course")
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
+        return jsonify({"message": "the user dont has permision to request"}), 400
+
     """method to update
 
      # noqa: E501

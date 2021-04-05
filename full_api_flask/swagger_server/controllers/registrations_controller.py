@@ -1,6 +1,8 @@
 import connexion
 import six
 from sqlalchemy import and_, or_
+
+from swagger_server.controllers import classes_controller, students_controller
 from swagger_server.models.registrations import Registrations  # noqa: E501
 from swagger_server import util
 from swagger_server.controllers.users_controller import*
@@ -18,6 +20,10 @@ def add_registration(f,body):  # noqa: E501
 
     :rtype: Registrations
     """
+    permis = get_per_id("can_add_registration")
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
+        return jsonify({"message": "the user dont has permision to request"}), 400
     if connexion.request.is_json:
         body = Registrations.from_dict(connexion.request.get_json())  # noqa: E501
     if not body or not body.class_id or not body.student_id:
@@ -58,8 +64,8 @@ def del_registration_by_id(f, class_id, student_id):  # noqa: E501
     :rtype: None
     """
     permis= get_per_id("can_delete_registration_by_id")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400 
     item= session.query(Registrations_instants).filter(and_(Registrations_instants.class_id == class_id, Registrations_instants.student_id == student_id)).first()
     if not item:
@@ -83,8 +89,8 @@ def get_all_registrations(f,key_word=None, page_num=None, records_per_page=None)
     :rtype: List[Registrations]
     """
     permis= get_per_id("can_view_all_registrations")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400
     rows= get_all_data(Registrations_instants)
     if not rows:
@@ -127,8 +133,8 @@ def get_registration_by_id(f,class_id, student_id):  # noqa: E501
     :rtype: Registrations
     """
     permis= get_per_id("can_view_registration_by_id")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400
     item= session.query(Registrations_instants).filter(and_(Registrations_instants.class_id == class_id, Registrations_instants.student_id == student_id)).first()
     if not item:
@@ -157,15 +163,15 @@ def update_registration(f,body):  # noqa: E501
     :rtype: None
     """
     permis= get_per_id("can_update_registration")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400
     if connexion.request.is_json:
         body = Registrations.from_dict(connexion.request.get_json())  # noqa: E501
     
     try:
         current_registration= session.query(Registrations_instants).filter(and_(Registrations_instants.class_id == body.class_id.class_id, Registrations_instants.student_id == body.student_id.student_id)).first()
-        current_event.register_day= body.register_day,
+        current_registration.register_day= body.register_day,
         current_registration.status= body.status,
         session.commit()
         return body

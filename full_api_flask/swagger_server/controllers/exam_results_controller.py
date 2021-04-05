@@ -2,6 +2,8 @@ import connexion
 import six
 from flask import jsonify
 from sqlalchemy import or_, and_
+
+from swagger_server.controllers import students_controller, exams_controller, classes_controller
 from swagger_server.models.exam_results import ExamResults  # noqa: E501
 from swagger_server import util
 from swagger_server.controllers.users_controller import*
@@ -19,6 +21,10 @@ def add_exam_result(f,body):  # noqa: E501
 
     :rtype: ExamResults
     """
+    permis = get_per_id("can_add_exam_result")
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
+        return jsonify({"message": "the user dont has permision to request"}), 400
     if connexion.request.is_json:
         body = ExamResults.from_dict(connexion.request.get_json())  # noqa: E501
     if not body or not body.class_id or not body.exam_id or not body.student_id:
@@ -68,8 +74,8 @@ def del_exam_result_by_id(f,exam_result_id):  # noqa: E501
     :rtype: None
     """
     permis= get_per_id("can_delete_exam_result_by_id")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400
     item= session.query(Exam_results_instants).filter(Exam_results_instants.exam_result_id == exam_result_id).first()
     if item == None:
@@ -92,6 +98,10 @@ def get_all_exam_results(f,key_word=None, page_num=None, records_per_page=None):
 
     :rtype: List[ExamResults]
     """
+    permis = get_per_id("can_view_all_exam_results")
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
+        return jsonify({"message": "the user dont has permision to request"}), 400
     rows= get_all_data(Exam_results_instants)
     if not rows:
         return jsonify
@@ -136,8 +146,8 @@ def get_exam_result_by_id(f,exam_result_id):  # noqa: E501
     :rtype: ExamResults
     """
     permis= get_per_id("can_view_exam_result_by_id")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400
     item= session.query(Exam_results_instants).filter(Exam_results_instants.exam_result_id == exam_result_id).first()
     if item == None:
@@ -156,10 +166,12 @@ def get_exam_result_by_id(f,exam_result_id):  # noqa: E501
     }
     return data
 
-
-def update_exam_result(body):  # noqa: E501
-    f= ""
-    token_required(f)
+@token_required
+def update_exam_result(f,body):  # noqa: E501
+    permis = get_per_id("can_update_exam_result")
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
+        return jsonify({"message": "the user dont has permision to request"}), 400
     """method to update
 
      # noqa: E501

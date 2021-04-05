@@ -1,6 +1,7 @@
 import connexion
 import six
 
+from swagger_server.controllers import classes_controller
 from swagger_server.models.events import Events  # noqa: E501
 from swagger_server import util
 from swagger_server.controllers.utils import *
@@ -21,6 +22,10 @@ def add_event(f,body):  # noqa: E501
 
     :rtype: Events
     """
+    permis = get_per_id("can_add_event")
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
+        return jsonify({"message": "the user dont has permision to request"}), 400
     if connexion.request.is_json:
         body = Events.from_dict(connexion.request.get_json()) # noqa: E501
     try:
@@ -59,8 +64,8 @@ def del_event_by_id(f,event_id):  # noqa: E501
     :rtype: None
     """
     permis= get_per_id("can_delete_event_by_id")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400 
     choose_event= session.query(Events_instants).filter(Events_instants.event_id == event_id).first()
     if not choose_event:
@@ -85,7 +90,9 @@ def get_all_events(f,key_word=None, page_num=None, records_per_page=None):  # no
     :rtype: List[Events]
     """
     permis= get_per_id("can_view_all_events")
-    permit = get_permis((f.role_id), (permis))
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
+        return jsonify({"message": "the user dont has permision to request"}), 400
     rows= get_all_data(Events_instants)
     if rows == None:
         return errors["400"][0],errors["400"][1]
@@ -128,8 +135,8 @@ def get_event_by_id(f,event_id):  # noqa: E501
     :rtype: Events
     """
     permis= get_per_id("can_view_events_by_id")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400
     # orm api session
     item= session.query(Events_instants).filter(Events_instants.event_id == event_id).first() 
@@ -145,10 +152,12 @@ def get_event_by_id(f,event_id):  # noqa: E501
         "status": item.status
     }
     return data
-
-def update_event(body):  # noqa: E501
-    f= ""
-    token_required(f)
+@token_required
+def update_event(f,body):  # noqa: E501
+    permis = get_per_id("can_update_event")
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
+        return jsonify({"message": "the user dont has permision to request"}), 400
     """method to update
 
      # noqa: E501

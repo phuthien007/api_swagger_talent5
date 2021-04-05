@@ -19,8 +19,8 @@ def add_teacher(f,body):  # noqa: E501
     :rtype: Teachers
     """
     permis= get_per_id("can_add_teacher")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400
     try:
         if connexion.request.is_json:
@@ -56,7 +56,7 @@ def del_teacher_by_id(f,teacher_id):  # noqa: E501
     :rtype: None
     """
     permis= get_per_id("can_delete_teacher_by_id")
-    permit = get_permis((f.role_id), (permis))
+    permis = get_permis((f.role_id), (permis))
     if permis:
         return jsonify({"message":"the user dont has permision to request"}), 400 
     current_teacher= session.query(Teachers_instants).filter(Teachers_instants.teacher_id == teacher_id).first()
@@ -92,8 +92,9 @@ def get_all_teachers(f,type_name=None, key_word=None, page_num=None, records_per
     :rtype: List[Teachers]
     """
     permis= get_per_id("can_view_all_teachers")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    print(f.username, f.role_id,permis)
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400 
     rows = get_all_data(Teachers_instants)
     if rows == None:
@@ -142,6 +143,8 @@ def get_teacher_by_id(f,teacher_id):  # noqa: E501
     # query data from database through orm api session
     permis= get_per_id("can_view_teacher_by_id")
     permis = get_permis((f.role_id), (permis))
+    if not permis:
+        return jsonify({"message": "the user dont has permision to request"}), 400
     try:
         item= session.query(Teachers_instants).filter(Teachers_instants.teacher_id == teacher_id).first()
         data= {
@@ -172,8 +175,8 @@ def update_teacher(f,body):  # noqa: E501
     :rtype: None
     """
     permis= get_per_id("can_update_teacher")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400
     if connexion.request.is_json:
         body = [Teachers.from_dict(connexion.request.get_json())][0]  # noqa: E501

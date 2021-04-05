@@ -8,8 +8,8 @@ from swagger_server.controllers import teachers_controller, courses_controller
 from sqlalchemy import or_,and_
 from swagger_server.controllers import*
 #update date using orm api session
-
-def add_class(body):  # noqa: E501
+@token_required
+def add_class(f,body):  # noqa: E501
     """add a class
 
     method to add a class # noqa: E501
@@ -19,8 +19,10 @@ def add_class(body):  # noqa: E501
 
     :rtype: Classes
     """
-    f= ""
-    token_required(f)
+    permis = get_per_id("can_add_class")
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
+        return jsonify({"message": "the user dont has permision to request"}), 400
     if connexion.request.is_json:
         body = [Classes.from_dict(connexion.request.get_json())][0]  # noqa: E501
     # create a new instant class
@@ -65,8 +67,8 @@ def del_class_by_id(f,class_id):  # noqa: E501
     :rtype: None
     """
     permis= get_per_id("can_delete_class_by_id")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400 
     try:
         current_class= session.query(Classes_instants).filter(Classes_instants.class_id == class_id).first()
@@ -84,8 +86,6 @@ def del_class_by_id(f,class_id):  # noqa: E501
             return "success"
     except Exception:
         session.rollback()
-        if current_teacher == None:
-            return errors["404"][0],errors["404"][1]
         return errors["405"][0],errors["405"][1]
     finally:
         session.close()
@@ -99,7 +99,9 @@ def get_all_classes(f,type_name=None, key_word=None, page_num=None, records_per_
     :rtype: List[Classes]
     """
     permis= get_per_id("can_view_all_classes")
-    permit = get_permis((f.role_id), (permis))
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
+        return jsonify({"message": "the user dont has permision to request"}), 400
     rows = get_all_data(Classes_instants)
     if rows == None:
         return errors["400"][0],errors["400"][1]
@@ -144,8 +146,8 @@ def get_classes_by_id(f,class_id):  # noqa: E501
     :rtype: Classes
     """
     permis= get_per_id("can_view_class_by_id")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400
     # orm api session
     item= session.query(Classes_instants).filter(Classes_instants.class_id == class_id).first() 
@@ -166,8 +168,8 @@ def get_classes_by_id(f,class_id):  # noqa: E501
         }
     return data
 
-
-def update_class(body):  # noqa: E501
+@token_required
+def update_class(f,body):  # noqa: E501
     """method to update
 
      # noqa: E501
@@ -177,8 +179,10 @@ def update_class(body):  # noqa: E501
 
     :rtype: None
     """
-    f= ""
-    token_required(f)
+    permis = get_per_id("can_update_class")
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
+        return jsonify({"message": "the user dont has permision to request"}), 400
     if connexion.request.is_json:
         body = [Classes.from_dict(connexion.request.get_json())][0]  # noqa: E501
     try:

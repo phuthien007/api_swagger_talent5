@@ -30,26 +30,20 @@ Exams_instants= Base.classes.exams
 # instant of table plan
 Plans_instants= Base.classes.plans
 #instant of table user
-Users_instants= Base.classes.users
-#instant of table 
-Users_instants= Base.classes.users
-#instant of table user
-Users_instants= Base.classes.users
+Users_instants = Base.classes.users
 #get data
 
 def get_permis(role_id,per_id):
     with engine.begin() as conn:
-        
-        res= conn.execute(f'SELECT * FROM add_role WHERE per_id ={per_id} AND role_id = {role_id}')
-        if not res:
-            return False
-        return True
+
+        res= conn.execute(f'SELECT * FROM add_role WHERE per_id ={per_id} AND role_id = {role_id}').first()
+        return res
 
 def get_per_id(permis):
     with engine.begin() as conn:
         res = list(conn.execute(f"SELECT per_id FROM permistions WHERE per_name = '{permis}' ").fetchone())[0]
         if not res:
-            return False
+            return None
         return res
 
 def get_all_data(obj):

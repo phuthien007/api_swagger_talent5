@@ -9,10 +9,9 @@ from swagger_server.controllers.users_controller import*
 from sqlalchemy import or_,and_
 from datetime import timezone
 
+@token_required
+def add_student(f,body):  # noqa: E501
 
-def add_student(body):  # noqa: E501
-    f= ""
-    token_required(f)
     """add a student
 
     method to add a student # noqa: E501
@@ -22,6 +21,10 @@ def add_student(body):  # noqa: E501
 
     :rtype: Students
     """
+    permis = get_per_id("can_add_student")
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
+        return jsonify({"message": "the user dont has permision to request"}), 400
     if connexion.request.is_json:
         body = Students.from_dict(connexion.request.get_json())  # noqa: E501
     #create a new instant student
@@ -60,8 +63,8 @@ def del_student_by_id(f,student_id):  # noqa: E501
     :rtype: None
     """
     permis= get_per_id("can_delete_student_by_id")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400 
     try:
         current_student= session.query(Students_instants).filter(Students_instants.student_id == student_id).first()
@@ -95,8 +98,8 @@ def get_all_students(f,type_name=None, key_word=None, page_num=None, records_per
     :rtype: List[Students]
     """
     permis= get_per_id("can_view_all_students")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400
     rows = get_all_data(Students_instants)
     if rows == None:
@@ -134,8 +137,8 @@ def get_student_by_id(f,student_id):  # noqa: E501
     :rtype: Students
     """
     permis= get_per_id("can_view_student_by_id")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400
     item= session.query(Students_instants).filter(Students_instants.student_id == student_id).first()
     if item == None:
@@ -166,8 +169,8 @@ def update_student(f,body):  # noqa: E501
     :rtype: None
     """
     permis= get_per_id("can_update_student")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400
     if connexion.request.is_json:
         body = [Students.from_dict(connexion.request.get_json())][0]  # noqa: E501

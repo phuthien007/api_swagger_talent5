@@ -22,6 +22,7 @@ def token_required(f):
             data= jwt.decode(token, app.secret_key)
             user= session.query(Users_instants).filter(Users_instants.user_id == data.get('user_id')).first()
         except Exception as e:
+            print(e)
             return jsonify({'message':'Token is invalid'}),401
         return f(user, *args, **kwargs)
     return decorated
@@ -63,8 +64,8 @@ def del_user_by_id(f,user_id):  # noqa: E501
     :rtype: None 
     """
     permis= get_per_id("can_delete_user_by_id")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400 
     user= session.query(Users_instants).filter(Users_instants.user_id == user_id).first()
     if not user:
@@ -89,8 +90,8 @@ def get_all_users(f,key_word=None, page_num=None, records_per_page=None):  # noq
     :rtype: List[Users]
     """
     permis= get_per_id("can_view_all_users")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400
     rows= get_all_data(Users_instants)
     # if rows == None:
@@ -131,8 +132,8 @@ def get_user_by_id(f,user_id):  # noqa: E501
     :rtype: Users
     """
     permis= get_per_id("can_view_user_by_id")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400 
     get_user= session.query(Users_instants).filter(Users_instants.user_id == user_id).first()
     if not get_user:
@@ -179,7 +180,7 @@ def login_user(body=None):  # noqa: E501
             {
             'user_id': user.user_id,
             'exp': datetime.utcnow() + timedelta(minutes=30),
-            'iat': datetime.now()
+            'iat': datetime.utcnow()
         }, app.secret_key, algorithm='HS256')
         return make_response(jsonify({'token': token.decode('utf-8') }))
 
@@ -196,8 +197,8 @@ def update_user(f,body):  # noqa: E501
     :rtype: None
     """
     permis= get_per_id("can_update_user")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400
     if connexion.request.is_json:
         body = Users.from_dict(connexion.request.get_json())  # noqa: E501

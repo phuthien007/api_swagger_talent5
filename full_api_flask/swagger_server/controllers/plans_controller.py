@@ -1,6 +1,7 @@
 import connexion
 import six
 
+from swagger_server.controllers import courses_controller
 from swagger_server.models.plans import Plans  # noqa: E501
 from swagger_server import util
 from swagger_server.controllers.users_controller import*
@@ -20,6 +21,10 @@ def add_plan(f,body):  # noqa: E501
 
     :rtype: Plans
     """
+    permis = get_per_id("can_add_plan")
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
+        return jsonify({"message": "the user dont has permision to request"}), 400
     if connexion.request.is_json:
         body = Plans.from_dict(connexion.request.get_json())  # noqa: E501
     if not body:
@@ -57,8 +62,8 @@ def del_plan_by_id(f,plan_id):  # noqa: E501
     :rtype: None
     """
     permis= get_per_id("can_delete_plan_by_id")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400 
     item= session.query(Plans_instants).filter(Plans_instants.plan_id == plan_id).first()
     if item == None:
@@ -83,8 +88,8 @@ def get_all_plans(f,key_word=None, page_num=None, records_per_page=None):  # noq
     
     """
     permis= get_per_id("can_view_all_plans")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400
     rows= get_all_data(Plans_instants)
     if not rows:
@@ -122,8 +127,8 @@ def get_plan_by_id(f,plan_id):  # noqa: E501
     :rtype: Plans
     """
     permis= get_per_id("can_view_plan_by_id")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400
     item= session.query(Plans_instants).filter(Plans_instants.plan_id == plan_id).first()
     if item == None:
@@ -150,8 +155,8 @@ def update_plan(f,body):  # noqa: E501
     :rtype: None
     """
     permis= get_per_id("can_update_plan")
-    permit = get_permis((f.role_id), (permis))
-    if permis:
+    permis = get_permis((f.role_id), (permis))
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400
     if connexion.request.is_json:
         body = Plans.from_dict(connexion.request.get_json())  # noqa: E501

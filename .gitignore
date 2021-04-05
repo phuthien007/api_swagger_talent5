@@ -1,0 +1,17 @@
+full_api_flask/Scripts/activate
+full_api_flask/Scripts/activate.bat
+full_api_flask/Scripts/Activate.ps1
+full_api_flask/Scripts/chardetect.exe
+full_api_flask/Scripts/connexion.exe
+full_api_flask/Scripts/deactivate.bat
+full_api_flask/Scripts/easy_install-3.9.exe
+full_api_flask/Scripts/easy_install.exe
+full_api_flask/Scripts/flask.exe
+full_api_flask/Scripts/jsonschema.exe
+full_api_flask/Scripts/openapi-spec-validator.exe
+full_api_flask/Scripts/pip.exe
+full_api_flask/Scripts/pip3.9.exe
+full_api_flask/Scripts/pip3.exe
+full_api_flask/Scripts/python.exe
+full_api_flask/Scripts/pythonw.exe
+full_api_flask/pyvenv.cfg

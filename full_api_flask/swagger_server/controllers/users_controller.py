@@ -19,7 +19,8 @@ def token_required(f):
         if not token:
             return jsonify({'message': 'Token is missing'}), 401
         try:
-            data= jwt.decode(token, app.secret_key)
+            data= jwt.decode(token,app.secret_key, algorithms=["HS256"])
+            
             user= session.query(Users_instants).filter(Users_instants.user_id == data.get('user_id')).first()
         except Exception as e:
             print(e)
@@ -182,7 +183,8 @@ def login_user(body=None):  # noqa: E501
             'exp': datetime.utcnow() + timedelta(minutes=30),
             'iat': datetime.utcnow()
         }, app.secret_key, algorithm='HS256')
-        return make_response(jsonify({'token': token.decode('utf-8') }))
+        print(token, type(token))
+        return make_response(jsonify({'token': token }))
 
 @token_required
 def update_user(f,body):  # noqa: E501

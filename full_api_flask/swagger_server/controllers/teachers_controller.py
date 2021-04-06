@@ -57,7 +57,7 @@ def del_teacher_by_id(f,teacher_id):  # noqa: E501
     """
     permis= get_per_id("can_delete_teacher_by_id")
     permis = get_permis((f.role_id), (permis))
-    if permis:
+    if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400 
     current_teacher= session.query(Teachers_instants).filter(Teachers_instants.teacher_id == teacher_id).first()
     if not current_teacher:
@@ -92,7 +92,6 @@ def get_all_teachers(f,type_name=None, key_word=None, page_num=None, records_per
     :rtype: List[Teachers]
     """
     permis= get_per_id("can_view_all_teachers")
-    print(f.username, f.role_id,permis)
     permis = get_permis((f.role_id), (permis))
     if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400 

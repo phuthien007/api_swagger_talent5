@@ -74,7 +74,7 @@ def del_registration_by_id(f, class_id, student_id):  # noqa: E501
     return 'success'
 
 @token_required
-def get_all_registrations(f,key_word=None, page_num=None, records_per_page=None):  # noqa: E501
+def get_all_registrations(f,key_word=None, page_num=0, records_per_page=20):  # noqa: E501
     """show all registrations
 
     method to get data registrations # noqa: E501
@@ -101,11 +101,11 @@ def get_all_registrations(f,key_word=None, page_num=None, records_per_page=None)
             key_word = int(key_word)
             rows= rows.filter(or_(Registrations_instants.class_id == key_word, Registrations_instants.student_id == key_word))
         except Exception as e:
-            print(e)
+            
             rows= rows.filter(Registrations_instants.status.like(f'%{key_word}%'))
-    if records_per_page:
+    if records_per_page>=0:
         rows = rows.limit(records_per_page)
-        if page_num:
+        if page_num>=0:
             rows= rows.offset(records_per_page * page_num)
 
     data=[]

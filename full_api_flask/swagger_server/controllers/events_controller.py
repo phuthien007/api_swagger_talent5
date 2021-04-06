@@ -74,7 +74,7 @@ def del_event_by_id(f,event_id):  # noqa: E501
     return "success"
 
 @token_required
-def get_all_events(f,key_word=None, page_num=None, records_per_page=None):  # noqa: E501
+def get_all_events(f,key_word=None, page_num=0, records_per_page=20):  # noqa: E501
     
     """show all events
 
@@ -104,10 +104,10 @@ def get_all_events(f,key_word=None, page_num=None, records_per_page=None):  # no
         except:
             rows = rows.filter(or_(Events_instants.name.like(f'%{key_word}%'),
                                 Events_instants.status.like(f'%{key_word}%')))   
-    if records_per_page:
+    if records_per_page>=0:
         print("recode %d"%(records_per_page))
         rows= rows.limit(records_per_page)
-        if page_num:
+        if page_num>=0:
             rows= rows.offset(records_per_page * page_num)
     
     data=[]

@@ -84,7 +84,7 @@ def del_exam_result_by_id(f,exam_result_id):  # noqa: E501
     return 'success'
 
 @token_required
-def get_all_exam_results(f,key_word=None, page_num=None, records_per_page=None):  # noqa: E501
+def get_all_exam_results(f,key_word=None, page_num=0, records_per_page=20):  # noqa: E501
     """show all exam_results
 
     method to get data exam_results # noqa: E501
@@ -114,9 +114,9 @@ def get_all_exam_results(f,key_word=None, page_num=None, records_per_page=None):
                                  Exam_results_instants.score == key_word))
         except:
             rows= rows.filter(Exam_results_instants.note.like(f"%{key_word}%"))
-    if records_per_page:
+    if records_per_page>=0:
         rows= rows.limit(records_per_page)
-        if page_num:
+        if page_num>=0:
             rows= rows.offset(records_per_page  * page_num)
     data=[]
     for item in rows:

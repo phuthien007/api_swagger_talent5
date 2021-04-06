@@ -19,11 +19,9 @@ def token_required(f):
         if not token:
             return jsonify({'message': 'Token is missing'}), 401
         try:
-            data= jwt.decode(token,app.secret_key, algorithms=["HS256"])
-            
+            data= jwt.decode(token,app.secret_key, algorithms='HS256')
             user= session.query(Users_instants).filter(Users_instants.user_id == data.get('user_id')).first()
         except Exception as e:
-            print(e)
             return jsonify({'message':'Token is invalid'}),401
         return f(user, *args, **kwargs)
     return decorated
@@ -76,7 +74,7 @@ def del_user_by_id(f,user_id):  # noqa: E501
 
 
 @token_required
-def get_all_users(f,key_word=None, page_num=None, records_per_page=None):  # noqa: E501
+def get_all_users(f,key_word=None, page_num=0, records_per_page=20):  # noqa: E501
     """the method to show all users
 
     you can show all users # noqa: E501
@@ -95,14 +93,14 @@ def get_all_users(f,key_word=None, page_num=None, records_per_page=None):  # noq
     if not permis:
         return jsonify({"message":"the user dont has permision to request"}), 400
     rows= get_all_data(Users_instants)
-    # if rows == None:
-    #     return errors["400"][0],errors["400"][1]
-    # if key_word:
-    #     rows= rows.filter(or_(Users_instants.email.like(f'%{key_word}%'),Users_instants.fullname.like(f'%{key_word}%'),Users_instants.username.like(f'%{key_word}%')))
-    # if records_per_page:
-    #     rows= rows.limit(records_per_page)
-    #     if page_num:
-    #         rows= rows.offset(records_per_page* page_num)
+    if rows == None:
+        return errors["400"][0],errors["400"][1]
+    if key_word:
+        rows= rows.filter(or_(Users_instants.email.like(f'%{key_word}%'),Users_instants.fullname.like(f'%{key_word}%'),Users_instants.username.like(f'%{key_word}%')))
+    if records_per_page>=0:
+        rows= rows.limit(records_per_page)
+        if page_num>=0:
+            rows= rows.offset(records_per_page* page_num)
     data=[]
     for user in rows:
         data.append({

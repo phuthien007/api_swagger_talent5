@@ -83,7 +83,7 @@ def del_teacher_by_id(f,teacher_id):  # noqa: E501
         session.close()
 # get all data from table teacher
 @token_required
-def get_all_teachers(f,type_name=None, key_word=None, page_num=None, records_per_page=None):  # noqa: E501
+def get_all_teachers(f,type_name=None, key_word=None, page_num=0, records_per_page=20):  # noqa: E501
     """show all teachers
 
     method to get data teacher # noqa: E501
@@ -112,9 +112,9 @@ def get_all_teachers(f,type_name=None, key_word=None, page_num=None, records_per
             rows= rows.filter(Teachers_instants.address.like(f'%{key_word}%'))
     elif key_word:
         rows= rows.filter(or_(Teachers_instants.address.like(f'%{key_word}%'),Teachers_instants.email.like(f'%{key_word}%'),Teachers_instants.full_name.like(f'%{key_word}%'),Teachers_instants.grade.like(f'%{key_word}%'),Teachers_instants.phone.like(f'%{key_word}%')))
-    if records_per_page:
+    if records_per_page>=0:
         rows= rows.limit(records_per_page)
-        if page_num:
+        if page_num>=0:
             rows= rows.offset(records_per_page* page_num)
     data=[] 
     for item in rows:

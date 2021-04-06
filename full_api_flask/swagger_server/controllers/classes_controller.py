@@ -92,7 +92,7 @@ def del_class_by_id(f,class_id):  # noqa: E501
 
 # method to get data from database and show all
 @token_required
-def get_all_classes(f,type_name=None, key_word=None, page_num=None, records_per_page=None):  # noqa: E501
+def get_all_classes(f,type_name=None, key_word=None, page_num=0, records_per_page=20):  # noqa: E501
     """show all classes
 
     method to get data course # noqa: E501
@@ -115,9 +115,9 @@ def get_all_classes(f,type_name=None, key_word=None, page_num=None, records_per_
             rows = rows.filter(or_(Classes_instants.name.like(f'%{key_word}%'),
                                 Classes_instants.status.like(f'%{key_word}%')))    
         
-    if records_per_page:
+    if records_per_page>=0:
         rows= rows.limit(records_per_page)
-        if page_num:
+        if page_num>=0:
             rows= rows.offset(records_per_page* page_num)
     data=[]
     for item in rows:

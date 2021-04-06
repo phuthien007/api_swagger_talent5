@@ -84,7 +84,7 @@ def del_course_by_id(f,course_id):  # noqa: E501
         session.close()
 
 @token_required
-def get_all_courses(f,type_name=None, key_word=None, page_num=None, records_per_page=None):  # noqa: E501
+def get_all_courses(f,type_name=None, key_word=None, page_num=0, records_per_page=20):  # noqa: E501
     """show all courses
 
     method to get data course # noqa: E501
@@ -101,9 +101,9 @@ def get_all_courses(f,type_name=None, key_word=None, page_num=None, records_per_
         return errors["400"][0],errors["400"][1]
     if key_word:
         rows= rows.filter(or_(Courses_instants.name.like(f'%{key_word}%'),Courses_instants.type.like(f'%{key_word}%')))
-    if records_per_page:
+    if records_per_page>=0:
         rows= rows.limit(records_per_page)
-        if page_num:
+        if page_num>=0:
             rows= rows.offset(records_per_page* page_num)
     data=[]
     for item in rows:

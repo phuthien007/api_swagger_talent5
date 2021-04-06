@@ -75,7 +75,7 @@ def del_exam_by_id(f,exam_id):  # noqa: E501
     return 'success'
 
 @token_required
-def get_all_exams(f, key_word=None, page_num=None, records_per_page=None):  # noqa: E501
+def get_all_exams(f, key_word=None, page_num=0, records_per_page=20):  # noqa: E501
     """show all exams
 
     method to get data exam # noqa: E501
@@ -102,9 +102,9 @@ def get_all_exams(f, key_word=None, page_num=None, records_per_page=None):  # no
             rows=rows.filter(Exams_instants.course_id == key_word)
         except:
             rows=rows.filter((Exams_instants.name.like(f"%{key_word}%")))
-    if records_per_page:
+    if records_per_page>=0:
         rows=rows.limit(records_per_page)
-        if page_num:
+        if page_num>=0:
             rows= rows.offset(records_per_page* page_num)
     data=[]
     for item in rows:

@@ -6,10 +6,11 @@
  => add constraint check >=0 and add default page_num=0 and record_page_num =20
 - số lượng phân trang từng bản ghi( tổng bản ghi) cho vào header
 	phần trang con cho từng truy vấn
+=> done
 - format tên object trong từng bản ghi(trong code)
  => dang check do den registrations-> plans ->done
 - cơ sở dữ liệu, format date
 => done
-- in sql trong console -> tối ưu sql
+- in sql trong console => done -> tối ưu sql
 - chuyển check quyền
-=> done ???
+=> done

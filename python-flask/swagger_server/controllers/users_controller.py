@@ -22,21 +22,19 @@ def token_required(f):
             data= jwt.decode(token,app.secret_key, algorithms='HS256')
             user= session.query(Users_instants).filter(Users_instants.id == data.get('id')).first()
         except Exception as e:
-            
             return jsonify({'message':'Token is invalid'}),401
         return f(user, *args, **kwargs)
     return decorated
 def check_authorization(user,permistion):
     try:
         permis= get_per_id(permistion)
-        check1 = get_permis_each_role(user.role, permis)
-      
-        check2 = get_permis_each_author(user.id, permis)
+        check1 = get_permis_each_role(role=user.role,per_id= permis)
+        check2 = get_permis_each_author(user_id=user.id, per_id=permis)
         if check1 == None and  check2 == None:
             return False
         return True 
     except Exception as e:
-        return jsonify({"message":f"{e}"})
+        return False
 def create_user(body):  # noqa: E501
     """the method to register
 

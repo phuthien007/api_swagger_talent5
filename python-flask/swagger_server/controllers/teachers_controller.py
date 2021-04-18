@@ -88,52 +88,52 @@ def get_all_teachers(f,type_name=None, key_word=None, page_num=0, records_per_pa
 
     :rtype: List[Teachers]
     """
-    if check_authorization(f,"can_view_all_teachers") == False:
-        return jsonify({"message":"the user dont has permision to request"}), 400
-    rows,number_of_records = get_all_data(Teachers_instants)
-    if rows == None:
-        # when execute fail
-        return errors["400"][0],errors["400"][1]
-    if key_word and type_name:
-        if type_name == 'full_name':
-            rows= rows.filter(Teachers_instants.full_name.like(f'%{key_word}%'))
-        if type_name == 'email':
-            rows= rows.filter(Teachers_instants.email.like(f'%{key_word}%'))
-        if type_name == 'phone':
-            rows= rows.filter(Teachers_instants.phone.like(f'%{key_word}%'))
-        if type_name == 'grade':
-            rows= rows.filter(Teachers_instants.grade.like(f'%{key_word}%'))
-        if type_name == 'address':
-            rows= rows.filter(Teachers_instants.address.like(f'%{key_word}%'))
-    elif key_word:
-        rows= rows.filter(or_(Teachers_instants.address.like(f'%{key_word}%'),Teachers_instants.email.like(f'%{key_word}%'),Teachers_instants.full_name.like(f'%{key_word}%'),Teachers_instants.grade.like(f'%{key_word}%'),Teachers_instants.phone.like(f'%{key_word}%')))
+    # if check_authorization(f,"can_view_all_teachers") == False:
+    #     return jsonify({"message":"the user dont has permision to request"}), 400
+    # rows,number_of_records = get_all_data(Teachers_instants)
+    # # if rows == None:
+    #     # when execute fail
+    #     return errors["400"][0],errors["400"][1]
+    # if key_word and type_name:
+    #     if type_name == 'full_name':
+    #         rows= rows.filter(Teachers_instants.full_name.like(f'%{key_word}%'))
+    #     if type_name == 'email':
+    #         rows= rows.filter(Teachers_instants.email.like(f'%{key_word}%'))
+    #     if type_name == 'phone':
+    #         rows= rows.filter(Teachers_instants.phone.like(f'%{key_word}%'))
+    #     if type_name == 'grade':
+    #         rows= rows.filter(Teachers_instants.grade.like(f'%{key_word}%'))
+    #     if type_name == 'address':
+    #         rows= rows.filter(Teachers_instants.address.like(f'%{key_word}%'))
+    # elif key_word:
+    #     rows= rows.filter(or_(Teachers_instants.address.like(f'%{key_word}%'),Teachers_instants.email.like(f'%{key_word}%'),Teachers_instants.full_name.like(f'%{key_word}%'),Teachers_instants.grade.like(f'%{key_word}%'),Teachers_instants.phone.like(f'%{key_word}%')))
     
-    total_pages= number_of_records//20 + 1
-    print(number_of_records)
-    records_per_page = 0 if records_per_page <0 else records_per_page
-    print(number_of_records)
+    # total_pages= number_of_records//20 + 1
+    # print(number_of_records)
+    # records_per_page = 0 if records_per_page <0 else records_per_page
+    # print(number_of_records)
     
-    if records_per_page>=0:
-        if page_num>=0:
-            rows= rows.offset(records_per_page* page_num)
-            if number_of_records > records_per_page and int(records_per_page) != 20:
-                number_of_records = int(records_per_page)
-            total_pages= number_of_records//20 + 1
-            if records_per_page > 20:
-                records_per_page = 20
-            rows= rows.limit(records_per_page)
+    # if records_per_page>=0:
+    #     if page_num>=0:
+    #         rows= rows.offset(records_per_page* page_num)
+    #         if number_of_records > records_per_page and int(records_per_page) != 20:
+    #             number_of_records = int(records_per_page)
+    #         total_pages= number_of_records//20 + 1
+    #         if records_per_page > 20:
+    #             records_per_page = 20
+    #         rows= rows.limit(records_per_page)
     
-    data=[] 
-    for item in rows:
-        data.append({
-            "address": item.address,
-            "email": item.email,
-            "full_name": item.full_name,
-            "grade": item.grade,
-            "phone": item.phone,
-            "id": item.id
-        })
-    return data,200,{"total_of_records":number_of_records,"total_of_pages": total_pages}
+    # data=[] 
+    # for item in rows:
+    #     data.append({
+    #         "address": item.address,
+    #         "email": item.email,
+    #         "full_name": item.full_name,
+    #         "grade": item.grade,
+    #         "phone": item.phone,
+    #         "id": item.id
+    #     })
+    return 'data'#,200,{"total_of_records":number_of_records,"total_of_pages": total_pages}
 
 @token_required
 def get_teacher_by_id(f,teacher_id):  # noqa: E501

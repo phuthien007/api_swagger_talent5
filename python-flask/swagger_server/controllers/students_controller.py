@@ -85,7 +85,7 @@ def del_student_by_id(f,student_id):  # noqa: E501
         session.close()
 
 @token_required
-def get_all_students(f,type_name=None, key_word=None, page_num=0, records_per_page=20):  # noqa: E501
+def get_all_students(f,key_word=None, page_num=0, records_per_page=20):  # noqa: E501
     """show all students
 
     method to get data student # noqa: E501
@@ -125,7 +125,7 @@ def get_all_students(f,type_name=None, key_word=None, page_num=0, records_per_pa
             "phone": item.phone,
             "id": item.id
         })
-    return data,200,{"total_of_records":number_of_records,"total_of_pages": total_pages}
+    return 'data'
 
 @token_required
 def get_student_by_id(f,student_id):  # noqa: E501

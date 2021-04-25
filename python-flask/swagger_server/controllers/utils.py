@@ -2,11 +2,14 @@ from sqlalchemy import create_engine, and_
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import text
 from sqlalchemy.ext.automap import automap_base
+from functools import lru_cache
 from swagger_server.models import *
 import logging
-
-logging.basicConfig(filename='test.log', format='%(asctime)s %(levelname)s %(name)s: %(message)s')
-engine = create_engine('postgresql://postgres:Thienphu1@localhost:5432/ManagementStudents', hide_parameters=True,echo=True, query_cache_size=500)
+from datetime import timedelta
+import redis
+# logging.basicConfig(filename='check.log', format='%(asctime)s %(levelname)s %(name)s: %(message)s')
+engine = create_engine('postgresql://postgres:Thienphu1@localhost:5432/ManagementStudents', hide_parameters=True,
+                       echo=False, query_cache_size=500)
 Session = sessionmaker()
 # config engine with session api
 Session.configure(bind=engine)
@@ -37,24 +40,38 @@ Users_instants = Base.classes.users
 role1 = Base.classes.authorization_each_role
 role2 = Base.classes.authorization_each_author
 
+#config redis server
+redis_client= redis.Redis(host='localhost',port=6379,db=0) 
 
 # get data
 
 # count all record
 # func to gen authorization for each role
+
 def get_permis_each_role(role, per_id):
     role = role.strip()
-    res = session.query(role1).filter(and_(role1.role_name == role, role1.per_id == per_id)).first()
-    if res == None or res == '':
-        return None
+    res = redis_client.get(f'res_{role}_{per_id}')
+    # print(res)
+    if res is None:
+        res = session.query(role1).filter(and_(role1.role_name == role, role1.per_id == per_id)).first()
+        if res == None or res == '':
+            return None
+        redis_client.psetex(f'res_{role}_{per_id}',timedelta(minutes=5),'true')
+        # print(redis_client.get(f'res_{role}_{per_id}'))
+        # res = redis_client.get(f'res_{role}_{per_id}')
+        # print('day: ',res)
+    # print(res)
     return res
 
 
 # func to gen authorization for each user
 def get_permis_each_author(user_id, per_id):
-    res = session.query(role2).filter(and_(role2.user_id == user_id, role2.per_id == per_id)).first()
-    if res == None or res == '':
-        return None
+    res = redis_client.get(f'permis_{user_id}_{per_id}')
+    if res is None:
+        res = session.query(role2).filter(and_(role2.user_id == user_id, role2.per_id == per_id)).first()
+        if res == None or res == '':
+            return None
+        redis_client.get(f'permis_{user_id}_{per_id}',timedelta(minutes=5),'true')
     return res
 
 
@@ -69,10 +86,11 @@ def get_per_id(permis):
 
 # get all data
 def get_all_data(obj):
+    
     rows = session.query(obj)
     number_of_rows = session.query(obj).count()
-    return rows, number_of_rows
 
+    return rows, number_of_rows
 
 # func to add a instant object into table object through orm api session
 def add_data(obj):
